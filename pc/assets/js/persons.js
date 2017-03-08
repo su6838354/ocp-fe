@@ -9,14 +9,14 @@ p.init = function(){
     var op_str="";
     if(userObj.currentUser.get("userRole")=="Admins"){
         if(p.admin.get("type")=="location"){
-            op_str='<option value="group">单位</option>';
+            op_str='<option value="group__name">单位</option>';
         }else{
-            op_str='<option value="location">居委会</option>';
+            op_str='<option value="location__name">居委</option>';
         }
         $('#j_create_new').removeClass('hide');
     }else{
-        op_str+='<option value="group">单位</option>';
-        op_str+='<option value="location">居委会</option>';
+        op_str+='<option value="group__name">单位</option>';
+        op_str+='<option value="location__name">居委</option>';
     }
     $('.search-type').append(op_str);
     p.initEvent();
@@ -45,29 +45,8 @@ p.initEvent = function(){
       e.preventDefault();
       var searchWord = $.trim($('#search-word').val());
       if(searchWord){
-        p.loadUsersByArrayKey();
+        p.loadUsersByAdminID();
       }
-  });
-  $('.j_show_persons').on('click', function (e) {
-      e.preventDefault();
-      p.checkin="";
-      // $('#search-word').val('');
-      p.page=1;
-      p.loadUsersByArrayKey();
-  });
-  $('.j_check_in').on('click', function (e) {
-      e.preventDefault();
-      p.checkin="checkin";
-      // $('#search-word').val('');
-      p.page=1;
-      // p.loadUsersByArrayKey(p.admin.get("type"),userObj.currentUser.id,p.showUsers);
-  });
-  $('.j_uncheck_in').on('click', function (e) {
-      e.preventDefault();
-      p.checkin="uncheckin";
-      // $('#search-word').val('');
-      p.page=1;
-      // p.loadUsersByArrayKey(p.admin.get("type"),userObj.currentUser.id,p.showUsers);
   });
   $('.j_btn').on('click', function (e) {
       e.preventDefault();
@@ -77,21 +56,35 @@ p.initEvent = function(){
       $this.addClass('beclick');
       $this.blur();
   });
+  $('.j_show_persons').on('click', function (e) {
+      e.preventDefault();
+      p.checkin=null;
+      p.page=1;
+      p.loadUsersByAdminID();
+  });
+  $('.j_check_in').on('click', function (e) {
+      e.preventDefault();
+      p.checkin=true;
+      p.page=1;
+      p.loadUsersByAdminID();
+  });
+  $('.j_uncheck_in').on('click', function (e) {
+      e.preventDefault();
+      p.checkin=false;
+      p.page=1;
+      p.loadUsersByAdminID();
+  });
 };
-p.loadUsersByArrayKey=function(type,adminId,cb){
-  var type=p.admin.get("type"),
-      adminId=userObj.currentUser.pid,
-      cb=p.showUsers;
-  var searchType = $('.search-type').val(),
-      searchWord = $.trim($('#search-word').val());
-  // if(p.checkin=="checkin"){
-  //   query.equalTo("checkin","true");
-  // }else if(p.checkin=="uncheckin"){
-  //   query.notEqualTo("checkin","true");
-  // }
-  // type && query.equalTo(type, adminId);
+p.loadUsersByAdminID=function(){
+    $('#datatable tbody').empty();
+    $j_pagenation.empty();
+    var type=p.admin.get("type"),
+        adminId=userObj.currentUser.pid,
+        cb=p.showUsers;
+    var searchType = $('.search-type').val(),
+        searchWord = $.trim($('#search-word').val());
     var param={
-        "isShow": "-1",
+        "isShow": "1",
         "limit": p['size'],
         "page_index": p['page'],
         "group": "",
@@ -101,10 +94,15 @@ p.loadUsersByArrayKey=function(type,adminId,cb){
         "idcard": "",
         "realname": "",
         "username": "",
+        "group__name":"",
+        "location__name":"",
         "order_by": "-flagNumber"
     };
     if(type=="group"||type=="location"){
         param[type]=adminId;
+    }
+    if(p.checkin===true||p.checkin===false){
+        param["checkin"]=p.checkin;
     }
     param[searchType]=searchWord.toLowerCase();
     misc.func.user.get_users(param,function(res){
@@ -266,7 +264,7 @@ function createLateEvent(){
             return false;
           }
         }
-        
+        params[p.admin.type]=p.admin.pid; //group or location
         params["birth"]=params.birth.toISOString();
         var params1={
             'password': '123456',//6位固定密码
@@ -298,21 +296,21 @@ p.showUsers = function(datas){
 };
 // 重写分页函数
 showPages.prototype.toPage = function(page){ //页面跳转
- var turnTo = 1;
- if (typeof(page) == 'object') {
-  turnTo = page.options[page.selectedIndex].value;
- } else {
-  turnTo = page;
- }
- p.page = turnTo;
- p.loadUsersByArrayKey(p.admin.get("type"),userObj.currentUser.pid,p.showUsers);
- // self.location.href = this.createUrl(turnTo);
+    var turnTo = 1;
+    if (typeof(page) == 'object') {
+        turnTo = page.options[page.selectedIndex].value;
+    } else {
+        turnTo = page;
+    }
+    p.page = turnTo;
+    p.loadUsersByAdminID();
+    // self.location.href = this.createUrl(turnTo);
 };
 showPages.prototype.printHtml = function(mode){ //显示html代码
- this.page = p.page ? p.page : 1;
- // this.getPage();
- this.checkPages();
- this.showTimes += 1;
- this.element.html(pagestyle+this.createHtml(mode));
+    this.page = p.page ? p.page : 1;
+    // this.getPage();
+    this.checkPages();
+    this.showTimes += 1;
+    this.element.html(pagestyle+this.createHtml(mode));
 };
 

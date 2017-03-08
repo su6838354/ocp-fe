@@ -48,7 +48,10 @@ p.loadDatas = function(){
         "idcard": "",
         "realname": "",
         "username": "",
-        "order_by": "-flagNumber"
+        "group__name":"",
+        "location__name":"",
+        "order_by": "createdAt"
+        // "order_by": "-flagNumber"
     };
     param[searchType]=searchWord.toLowerCase();
     misc.func.user.get_users(param,function(res){
@@ -197,6 +200,7 @@ function createLateEvent(){
         $this.addClass(misc.vars.disable);
         misc.func.user.create_user_admin(params2,function(res){
             $this.removeClass(misc.vars.disable);
+            debugger
             if(res.code=="0"){
                 location.reload();
             }else{
