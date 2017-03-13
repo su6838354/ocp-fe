@@ -58,7 +58,8 @@ p.loadDatas = function(){
             // $('.createdAt').text(misc.formatDateTime(obj['createdAt'],userObj.format));
             // $('.updatedAt').text(misc.formatDateTime(obj['updatedAt'],userObj.format));
             $('.job').val(obj.get('job'));
-            $('.political').val(obj.get("political")=="团员"?(misc.getAge(obj.get('birth'))<=28 ?"团员":'青年'):(userObj.currentUser.get('userRole')=='Admins'?obj.get("political").replace('S',''):obj.get("political")));
+            $('.political').val(obj.get("political")=="团员"?(misc.getAge(obj.get('birth'))<=28 ?"团员":'青年'):obj.get("political"));
+            // $('.political').val(obj.get("political")=="团员"?(misc.getAge(obj.get('birth'))<=28 ?"团员":'青年'):(userObj.currentUser.get('userRole')=='Admins'?obj.get("political").replace('S',''):obj.get("political")));
             $('.mobile').val(obj.get('mobile'));
             $('.address').val(obj.get('address'));
             

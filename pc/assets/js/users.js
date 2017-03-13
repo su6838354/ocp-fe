@@ -99,7 +99,7 @@ function htmlRow(data){
               '<td>',data.get("sex")=="男"?"男":"女",'</td>',
               '<td>',data.get("idcard"),'</td>',
               '<td style="max-width:100px;">',data.get("mobile"),'</td>',
-              '<td>',data.get("political")=="团员"?(misc.getAge(data.get('birth'))<=28 ?"团员":'青年'):data.get("political").replace('S',''),'</td>',
+              '<td>',data.get("political")=="团员"?(misc.getAge(data.get('birth'))<=28 ?"团员":'青年'):data.get("political"),'</td>',
               '<td>',misc.getAge(data.get('birth')),'岁</td>',
               '<td>',(data.get("group__name")||"暂无"),'</td>',
               '<td>',(data.get("location__name")||"暂无"),'</td>',
