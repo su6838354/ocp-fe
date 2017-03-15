@@ -3,6 +3,20 @@ var p = {
     'size': 10
 };
 p.init = function(){
+    p.groupArr=[];
+    p.locationArr=[];
+    p.group=function(){
+        return ['<select class="group" style="width: 90px;">',
+                '<option value="">请选择</option>',
+                 p.groupArr.join(''),
+              '</select>'].join('');
+    };
+    p.location=function(){
+        return ['<select class="location" style="width: 90px;">',
+                '<option value="">请选择</option>',
+                 p.locationArr.join(''),
+              '</select>'].join('');
+    };
     $j_pagenation=$('.j_pagenation');
     p.page=misc.getParam('page')||1;
     p.admin=userObj.currentUser;
@@ -20,6 +34,39 @@ p.init = function(){
     }
     $('.search-type').append(op_str);
     p.initEvent();
+    p.loadAdmins();
+};
+p.loadAdmins=function(){
+    misc.func.admin.get_admins({
+        "isDelete":"0",
+        "isShow":"1",
+        "limit":1000,
+        "page_index":1
+    },function(res){
+        if(res.code=="0"){
+            admins=res.data;
+            var l=admins.length;
+            if(l>0){
+                for (var i=0;i<l;i++) {
+                  var admin=admins[i];
+                  admin.get=function(p){
+                      return admin[p];
+                  };
+                  var s=['<option value="',admin.get("pid"),'">',admin.get('name'),'</option>'].join('');
+                  if(admin.get('type')=='group'){
+                      p.groupArr.push(s);
+                  }
+                  else if(admin.get('type')=='location'){
+                      p.locationArr.push(s);
+                  }
+                }
+            }
+        }else{
+            alert("服务器不给力哦！");
+        }
+    },function(err){
+        alert("服务器不给力哦！");
+    })
 };
 p.clearTablePages = function(){
     $j_pagenation.html('');
@@ -232,10 +279,17 @@ function createRow() {
     tempTRTDs.eq(1).html('<input class="flagNumber" type="text" style="width: 70px !important;background: #ffffff;" value="">');
     tempTRTDs.eq(2).html('<input class="username" type="text" style="width: 70px !important;background: #ffffff;" value="">');
     tempTRTDs.eq(3).html('<input class="realname" type="text" style="width: 70px !important;background: #ffffff;" value="">');
-    tempTRTDs.eq(4).html('<select class="sex" style="width:90px;"><option value="">请选择</option><option selected="selected" value="男">男</option><option value="女">女</option></select>');
+    tempTRTDs.eq(4).html('<select class="sex" style="width:40px;"><option value="">请选择</option><option selected="selected" value="男">男</option><option value="女">女</option></select>');
     tempTRTDs.eq(5).html('<input class="idcard" type="text" style="width: 70px !important;background: #ffffff;" value="">');
     tempTRTDs.eq(6).html('<input class="mobile" type="text" style="width: 70px !important;background: #ffffff;" value="">');
     tempTRTDs.eq(7).html('<input class="political" type="text" style="width: 70px !important;background: #ffffff;" value="">');
+    if(userObj.currentUser.get("userRole")=="Admins"){
+        if(p.admin.get("type")=="location"){
+            tempTRTDs.eq(9).html(p.group());
+        }else{
+            tempTRTDs.eq(10).html(p.location());
+        }
+    }
     createLateEvent();
 }
 
@@ -265,8 +319,15 @@ function createLateEvent(){
             return false;
           }
         }
-        params[p.admin.type]=p.admin.pid; //group or location
         params["birth"]=params.birth.toISOString();
+        params[p.admin.type]=p.admin.pid; //group or location
+        if(userObj.currentUser.get("userRole")=="Admins"){
+            if(p.admin.get("type")=="location"){
+                params["group"]=$('.group').val();
+            }else{
+                params["location"]=$('.location').val();
+            }
+        }
         var params1={
             'password': '123456',//6位固定密码
             'userRole': "Users",
