@@ -470,6 +470,16 @@ var misc = {
 	generateRandom: function(s) {
 		var rand = parseInt(Math.random()*s*10);
 		return rand<s?arguments.callee(s):rand
+	},
+	AZSortFun:function(arr){
+		return arr.sort(function(a,b){ 
+		    return a.localeCompare(b); 
+		});
+	},
+	objAZSortFun:function(arr,prop){
+		return arr.sort(function(a,b){
+			return a[prop].localeCompare(b[prop]);
+		});
 	}
 };
 
@@ -536,6 +546,10 @@ misc.api.activity.update_act_join_log_extra=misc.api.base+'update_act_join_log_e
 misc.api.activity.create_act_join_log=misc.api.base+'create_act_join_log';
 misc.api.activity.create_activity=misc.api.base+'create_activity';
 misc.api.activity.update_activity=misc.api.base+'update_activity';
+misc.api.activity.get_tags=misc.api.base+'get_tags';
+misc.api.activity.add_update_activity2tag=misc.api.base+'add_update_activity2tag';
+misc.api.activity.delete_activity2tag=misc.api.base+'delete_activity2tag';
+misc.api.activity.add_update_tag=misc.api.base+'add_update_tag';
 
 
 misc.func={
@@ -630,6 +644,34 @@ misc.func.activity.update_activity=function(param,succ_cb,fail_cb){
 };
 misc.func.activity.get_activities=function(param,succ_cb,fail_cb){
     misc.ajax.cdPost(misc.api.activity.get_activities, JSON.stringify(param), function(res){
+        succ_cb && succ_cb(res);
+    }, function(err){
+        fail_cb && fail_cb(err);
+    });
+};
+misc.func.activity.get_tags=function(param,succ_cb,fail_cb){
+    misc.ajax.cdPost(misc.api.activity.get_tags, JSON.stringify(param), function(res){
+        succ_cb && succ_cb(res);
+    }, function(err){
+        fail_cb && fail_cb(err);
+    });
+};
+misc.func.activity.add_update_tag=function(param,succ_cb,fail_cb){
+    misc.ajax.cdPost(misc.api.activity.add_update_tag, JSON.stringify(param), function(res){
+        succ_cb && succ_cb(res);
+    }, function(err){
+        fail_cb && fail_cb(err);
+    });
+};
+misc.func.activity.add_update_activity2tag=function(param,succ_cb,fail_cb){
+    misc.ajax.cdPost(misc.api.activity.add_update_activity2tag, JSON.stringify(param), function(res){
+        succ_cb && succ_cb(res);
+    }, function(err){
+        fail_cb && fail_cb(err);
+    });
+};
+misc.func.activity.delete_activity2tag=function(param,succ_cb,fail_cb){
+    misc.ajax.cdPost(misc.api.activity.delete_activity2tag, JSON.stringify(param), function(res){
         succ_cb && succ_cb(res);
     }, function(err){
         fail_cb && fail_cb(err);
@@ -853,6 +895,7 @@ userObj.initSideBarMenu = function(hash,path){
 	        '<li class="',(path.indexOf("user")>0 ? "active":""),'"><a href="users.html#user">团员/青年列表</a></li>',
 	        '<li class="',(path.indexOf("admin")>0 ? "active":""),'"><a href="admins.html#user">单位/居委列表</a></li>',
 	        '<li class="',(path.indexOf("person")>0 ? "active":""),'"><a href="persons.html#user">所属人员列表</a></li>',
+	        // '<li class="',(path.indexOf("acttag")>0 ? "active":""),'"><a href="acttags.html#user">活动标签列表</a></li>',
 	        '<li class="',(path.indexOf("activit")>0 ? "active":""),'"><a href="activities.html#user">活动数据列表</a></li>',
 	        '<li class="',(path.indexOf("statistic")>0 ? "active":""),'"><a href="statistics.html#user">活动统计列表</a></li>',
 	        '<li class="',(path.indexOf("checkindata")>0 ? "active":""),'"><a href="checkindata.html#user">报到统计列表</a></li>',

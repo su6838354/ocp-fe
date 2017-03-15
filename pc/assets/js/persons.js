@@ -45,6 +45,7 @@ p.loadAdmins=function(){
     },function(res){
         if(res.code=="0"){
             admins=res.data;
+            admins=misc.objAZSortFun(admins,'name');
             var l=admins.length;
             if(l>0){
                 for (var i=0;i<l;i++) {
@@ -283,11 +284,14 @@ function createRow() {
     tempTRTDs.eq(5).html('<input class="idcard" type="text" style="width: 70px !important;background: #ffffff;" value="">');
     tempTRTDs.eq(6).html('<input class="mobile" type="text" style="width: 70px !important;background: #ffffff;" value="">');
     tempTRTDs.eq(7).html('<input class="political" type="text" style="width: 70px !important;background: #ffffff;" value="">');
+    tempTRTDs.eq(9).html(p.group());
+    tempTRTDs.eq(10).html(p.location());
     if(userObj.currentUser.get("userRole")=="Admins"){
+        $('.'+p.admin.type).val(p.admin.pid)
         if(p.admin.get("type")=="location"){
-            tempTRTDs.eq(9).html(p.group());
+
         }else{
-            tempTRTDs.eq(10).html(p.location());
+
         }
     }
     createLateEvent();
@@ -302,13 +306,13 @@ function createLateEvent(){
         e.preventDefault();
         var $this = $(this);
         var params = {
-          'idcard': $('.idcard').val(),
-          'flagNumber': $('input.flagNumber').val(),
-          'username': $('input.username').val(),
-          'realname': $('.realname').val(),
-          'sex': $('.sex').val(),
-          'political': $('.political').val(),
-          'mobile': $('.mobile').val()
+            'idcard': $('.idcard').val(),
+            'flagNumber': $('input.flagNumber').val(),
+            'username': $('input.username').val(),
+            'realname': $('.realname').val(),
+            'sex': $('.sex').val(),
+            'political': $('.political').val(),
+            'mobile': $('.mobile').val()
         };
         var birthArr = params.idcard.substring(6,14).split('');
         params.birth = new Date([birthArr[0],birthArr[1],birthArr[2],birthArr[3],'/',birthArr[4],birthArr[5],'/',birthArr[6],birthArr[7]].join(''));
@@ -320,14 +324,16 @@ function createLateEvent(){
           }
         }
         params["birth"]=params.birth.toISOString();
-        params[p.admin.type]=p.admin.pid; //group or location
-        if(userObj.currentUser.get("userRole")=="Admins"){
-            if(p.admin.get("type")=="location"){
-                params["group"]=$('.group').val();
-            }else{
-                params["location"]=$('.location').val();
-            }
-        }
+        params["group"]=$('.group').val();
+        params["location"]=$('.location').val();
+        // params[p.admin.type]=p.admin.pid; //group or location
+        // if(userObj.currentUser.get("userRole")=="Admins"){
+        //     if(p.admin.get("type")=="location"){
+        //         params["group"]=$('.group').val();
+        //         params["location"]=$('.location').val();
+        //     }else{
+        //     }
+        // }
         var params1={
             'password': '123456',//6位固定密码
             'userRole': "Users",
