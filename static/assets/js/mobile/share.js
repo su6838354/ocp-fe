@@ -90,6 +90,16 @@ var misc = {
 	    var ordAlpah = (order == 'asc') ? '>' : '<';
 	    var sortFun = new Function('a', 'b', 'return a.' + sortBy + ordAlpah + 'b.' + sortBy + '?1:-1');
 	    return sortFun;
+	},
+	AZSortFun:function(arr){
+		return arr.sort(function(a,b){ 
+		    return a.localeCompare(b); 
+		});
+	},
+	objAZSortFun:function(arr,prop){
+		return arr.sort(function(a,b){
+			return a[prop].localeCompare(b[prop]);
+		});
 	}
 };
 misc.setCookie = function (name,value,days) {
@@ -152,7 +162,10 @@ misc.api.activity.create_act_join_log=misc.api.base+'create_act_join_log';
 misc.api.activity.create_activity=misc.api.base+'create_activity';
 misc.api.activity.update_activity=misc.api.base+'update_activity';
 misc.api.activity.get_activities_by_join=misc.api.base+'get_activities_by_join';
-
+misc.api.activity.get_tags=misc.api.base+'get_tags';
+misc.api.activity.add_update_activity2tag=misc.api.base+'add_update_activity2tag';
+misc.api.activity.delete_activity2tag=misc.api.base+'delete_activity2tag';
+misc.api.activity.add_update_tag=misc.api.base+'add_update_tag';
 misc.func={
 	_user:{},
 	user:{},
@@ -259,6 +272,34 @@ misc.func.activity.get_act_join_log=function(param,succ_cb,fail_cb){
 };
 misc.func.activity.create_act_join_log=function(param,succ_cb,fail_cb){
     misc.ajax.cdPost(misc.api.activity.create_act_join_log, JSON.stringify(param), function(res){
+        succ_cb && succ_cb(res);
+    }, function(err){
+        fail_cb && fail_cb(err);
+    });
+};
+misc.func.activity.get_tags=function(param,succ_cb,fail_cb){
+    misc.ajax.cdPost(misc.api.activity.get_tags, JSON.stringify(param), function(res){
+        succ_cb && succ_cb(res);
+    }, function(err){
+        fail_cb && fail_cb(err);
+    });
+};
+misc.func.activity.add_update_tag=function(param,succ_cb,fail_cb){
+    misc.ajax.cdPost(misc.api.activity.add_update_tag, JSON.stringify(param), function(res){
+        succ_cb && succ_cb(res);
+    }, function(err){
+        fail_cb && fail_cb(err);
+    });
+};
+misc.func.activity.add_update_activity2tag=function(param,succ_cb,fail_cb){
+    misc.ajax.cdPost(misc.api.activity.add_update_activity2tag, JSON.stringify(param), function(res){
+        succ_cb && succ_cb(res);
+    }, function(err){
+        fail_cb && fail_cb(err);
+    });
+};
+misc.func.activity.delete_activity2tag=function(param,succ_cb,fail_cb){
+    misc.ajax.cdPost(misc.api.activity.delete_activity2tag, JSON.stringify(param), function(res){
         succ_cb && succ_cb(res);
     }, function(err){
         fail_cb && fail_cb(err);

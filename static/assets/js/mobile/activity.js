@@ -42,9 +42,10 @@ p.loadActivity=function(){
 				$box.find('.title').append(activity['title']);
 				$box.find('.date').append(misc.formatDateTime(new Date(activity.createdAt),misc.formatType["3"]));
 
-				$box.find('.tags li').eq(0).append(activity['admin']['name']);
-				activity['place'] && $box.find('.tags li').eq(1).append("活动地点："+activity['place']);
-				activity['limit'] && $box.find('.tags li').eq(2).append("建议人数："+activity['limit']);
+				activity['admin']['name']&& $box.find('.j_note_admin li').eq(0).append("发布方："+activity['admin']['name']);
+				activity['place'] && $box.find('.j_note_admin li').eq(1).append("活动地点："+activity['place']);
+				activity['limit'] && $box.find('.j_note_admin li').eq(2).append("建议人数："+activity['limit']);
+				activity.tags[0] && $box.find('.j_note_tags li').eq(1).append(activity.tags[0]['txt']);
 				var pArr = activity['content'].split('-b');
 				for (var i = 0,l = pArr.length; i < l; i++) {
 					$box.find('.content').append('<p>'+pArr[i]+'</p>');

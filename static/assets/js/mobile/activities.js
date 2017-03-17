@@ -40,6 +40,8 @@ p.initEvent = function(){
 		e.stopPropagation();
 		location.href='../activitycreateoredit/';
 	});
+	$j_tabs = $('.tab');
+	$j_items = $('.items');
 	$j_tabs.on('click', function(e) {
 		e.preventDefault();
 		var $this=$(this),

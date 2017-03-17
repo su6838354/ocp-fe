@@ -52,3 +52,12 @@ textarea{
 .green{
     background-color: green;
 }
+.select{
+    width: 90%;
+    margin-left: 5%;
+    border: 1px solid #f08300;
+    padding: .5rem 0 .6rem 2%;
+    background-color: transparent;
+    font: 400 .9rem/1.12rem "Helvetica Neue",Helvetica,Tahoma,Arial,"Microsoft YaHei",Sans-serif !important;
+    border-radius: .4rem;
+}

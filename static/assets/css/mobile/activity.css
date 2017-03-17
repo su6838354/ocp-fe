@@ -760,3 +760,7 @@ body {
     -webkit-border-radius: .12rem;
     padding: 0rem .35rem;
 }
+
+.j_note_admin li{
+    width: 100%
+}

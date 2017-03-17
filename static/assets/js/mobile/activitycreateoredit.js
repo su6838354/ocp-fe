@@ -2,7 +2,7 @@ var p={};
 p.init=function() {
 	p.initVar();
 	p.initEvent();
-	user.checkLogin(p.initData);
+	user.checkLogin(p.get_tags);
 };
 p.initVar=function(){
 	activity={};
@@ -23,8 +23,12 @@ p.initEvent=function(){
 			"limit":activity.limit,
 			"admin":user.currentUser.pid,
 			"objectId":activity.objectId,
-			"isDelete":activity.isDelete
+			"isDelete":activity.isDelete,
+			"tag_ids":[]
 		};
+		if(activity.tags[0]){
+			p.param2["tag_ids"].push(activity.tags[0].tag_id);
+		}
 		if(!$this.hasClass('green')){
 			Dialog.ShowDialog({
 		        title: '',
@@ -97,8 +101,12 @@ p.initEvent=function(){
 			"limit":activity.limit,
 			"admin":user.currentUser.pid,
 			"objectId":activity.objectId,
-			"isShow":activity.isShow
+			"isShow":activity.isShow,
+			"tag_ids":[]
 		};
+		if(activity.tags[0]){
+			p.param2["tag_ids"].push(activity.tags[0].tag_id);
+		}
 		if($this.hasClass('green')){
 			Dialog.ShowDialog({
 		        title: '',
@@ -168,6 +176,10 @@ p.initEvent=function(){
 		v1 = $.trim($textarea.eq(1).val()),
 		v2 = $.trim($textarea.eq(2).val()),
 		v3 = $.trim($textarea.eq(3).val());
+		var tag_ids=[parseInt($('.j_select').val())];
+		if(!tag_ids[0]){
+			tag_ids=[];
+		}
 		if(activity.objectId){
 			// 修改
 			p.param2={
@@ -178,7 +190,8 @@ p.initEvent=function(){
 				"admin":user.currentUser.pid,
 				"objectId":activity.objectId,
 				"isShow":activity.isShow,
-				"isDelete":activity.isDelete
+				"isDelete":activity.isDelete,
+				"tag_ids":tag_ids
 			};
 			misc.func.activity.update_activity(p.param2,function(res){
 				if(res.code=="0"&&res.data){
@@ -206,8 +219,9 @@ p.initEvent=function(){
 					"admin":user.currentUser.pid,
 					"isDelete":"0",
 					"isShow":"0",
-					"joinnum":0
-				}
+					"joinnum":0,
+					"tag_ids":tag_ids
+				};
 				misc.func.activity.create_activity(p.param,function(res){
 					if(res.code=="0"&&res.data){
 				    	activity=p.param;
@@ -232,6 +246,23 @@ p.initEvent=function(){
 			}
 		}
 	});
+};
+p.get_tags=function(){
+	var param={
+        "limit":1000,
+        "page_index":1
+    };
+	misc.func.activity.get_tags(param,function(res){
+        if(res.code=="0"&&res.data){
+        	tags=res.data;
+        	$('.j_select').append(tags.map(function(d) {
+				return ['<option value=',d.id,'>',d["txt"],'</option>'].join(misc.vars.empty);
+        	}).join(misc.vars.empty));
+        	p.initData();
+        }
+    },function(err){
+
+    });
 };
 p.initData=function(){
 	if(activity.objectId){
@@ -302,6 +333,7 @@ p.doHtml = function(){
 		else{
 			$('.j_is_delete').append('是否删除：<i>未删除</i><span class="btnn isDelete">删除</span>');
 		}
+		activity.tags[0]&&$('.j_select').val(activity.tags[0].tag_id)
 	}else{
 		Dialog.ShowDialog({
 	        title: '',

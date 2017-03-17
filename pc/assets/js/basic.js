@@ -550,6 +550,7 @@ misc.api.activity.get_tags=misc.api.base+'get_tags';
 misc.api.activity.add_update_activity2tag=misc.api.base+'add_update_activity2tag';
 misc.api.activity.delete_activity2tag=misc.api.base+'delete_activity2tag';
 misc.api.activity.add_update_tag=misc.api.base+'add_update_tag';
+misc.api.activity.delete_tags=misc.api.base+'delete_tags';
 
 
 misc.func={
@@ -658,6 +659,13 @@ misc.func.activity.get_tags=function(param,succ_cb,fail_cb){
 };
 misc.func.activity.add_update_tag=function(param,succ_cb,fail_cb){
     misc.ajax.cdPost(misc.api.activity.add_update_tag, JSON.stringify(param), function(res){
+        succ_cb && succ_cb(res);
+    }, function(err){
+        fail_cb && fail_cb(err);
+    });
+};
+misc.func.activity.delete_tags=function(param,succ_cb,fail_cb){
+    misc.ajax.cdPost(misc.api.activity.delete_tags, JSON.stringify(param), function(res){
         succ_cb && succ_cb(res);
     }, function(err){
         fail_cb && fail_cb(err);
@@ -895,7 +903,7 @@ userObj.initSideBarMenu = function(hash,path){
 	        '<li class="',(path.indexOf("user")>0 ? "active":""),'"><a href="users.html#user">团员/青年列表</a></li>',
 	        '<li class="',(path.indexOf("admin")>0 ? "active":""),'"><a href="admins.html#user">单位/居委列表</a></li>',
 	        '<li class="',(path.indexOf("person")>0 ? "active":""),'"><a href="persons.html#user">所属人员列表</a></li>',
-	        // '<li class="',(path.indexOf("acttag")>0 ? "active":""),'"><a href="acttags.html#user">活动标签列表</a></li>',
+	        '<li class="',(path.indexOf("acttag")>0 ? "active":""),'"><a href="acttags.html#user">活动标签列表</a></li>',
 	        '<li class="',(path.indexOf("activit")>0 ? "active":""),'"><a href="activities.html#user">活动数据列表</a></li>',
 	        '<li class="',(path.indexOf("statistic")>0 ? "active":""),'"><a href="statistics.html#user">活动统计列表</a></li>',
 	        '<li class="',(path.indexOf("checkindata")>0 ? "active":""),'"><a href="checkindata.html#user">报到统计列表</a></li>',

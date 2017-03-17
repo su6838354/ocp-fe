@@ -130,8 +130,12 @@ function operateEvent(){
                     "admin":activity.admin.pid,
                     "objectId":activity.objectId,
                     "isShow":activity.isShow,
-                    "isDelete":activity.isDelete
-                  };
+                    "isDelete":activity.isDelete,
+                    "tag_ids":[]
+                };
+                if(activity.tags[0]){
+                    param2["tag_ids"].push(activity.tags[0].tag_id);
+                }
                   param2["isDelete"]="1";
                   misc.func.activity.update_activity(param2,function(res){
                     if(res.code=="0"&&res.data){
@@ -188,8 +192,12 @@ function operateEvent(){
                   "admin":activity.admin.pid,
                   "objectId":activity.objectId,
                   "isShow":activity.isShow,
-                  "isDelete":activity.isDelete
+                  "isDelete":activity.isDelete,
+                  "tag_ids":[]
                 };
+                if(activity.tags[0]){
+                    param2["tag_ids"].push(activity.tags[0].tag_id);
+                }
                 param2["isShow"]=(param2["isShow"]=='1')?'0':'1';
 
                 misc.func.activity.update_activity(param2,function(res){

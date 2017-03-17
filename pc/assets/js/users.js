@@ -212,7 +212,6 @@ function createLateEvent(){
         });
     });
 }
-
 function createRow() {
     var $tbody = $('tbody').eq(0),
         firstTR = $tbody.find("tr:first"),
