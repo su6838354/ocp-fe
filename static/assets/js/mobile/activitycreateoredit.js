@@ -228,7 +228,10 @@ p.initEvent=function(){
 				    	activity["objectId"]=res.data.objectId;
 						$create_confirm_btn.html('创建成功');
 						btnText($create_confirm_btn,'提交保存');
-						p.doHtml();
+						// p.doHtml();
+						setTimeout(function(){
+							location.href='../activitycreateoredit/?id='+activity["objectId"];
+						},600)
 					}else{
 				    	enable = !enable;
 						$create_confirm_btn.html('创建失败');
