@@ -29,6 +29,9 @@ p.initData = function(){
 				user.userInfo.get=function(p){
 					return user.userInfo[p];
 				};
+				user.userInfo['address']=user.userInfo['address']||"";
+				user.userInfo['job']=user.userInfo['job']||"";
+				user.userInfo['checkin']=user.userInfo['checkin']||[];
 				$propertys.eq(0).append(user.userInfo.get('username'));
 				$propertys.eq(1).append(user.userInfo.get('realname'));
 				$propertys.eq(2).append(user.userInfo.get('sex'));
