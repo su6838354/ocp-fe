@@ -90,14 +90,14 @@ function operateEvent(){
           misc.func.activity.delete_tags({
               "tag_ids": [id]
           },function(res){
-              if(res.code){
-                alert('当前标签不存在！')
-              }else if(res.data){
-                  
+              if(res.code=="0"){
+                curTR.fadeOut('fast', function() {});
+              }else{
+                alert("删除失败");
               }
           },function(err){
-              alert('当前标签不存在！')
-          }); 
+              alert("删除失败");
+          });
           
         }
 
