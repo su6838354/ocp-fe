@@ -98,7 +98,7 @@ function htmlRow(data,idx){
               '<td class="" style="color:#4b8df8;cursor:pointer;">',data.get("title"),'</td>',
               '<td style="max-width:260px;">',data.get("content"),data.get("content"),data.get("content"),'</td>',
               '<td class="">',data.get("place"),'</td>',
-              '<td class="">',data.get("tags")[0].txt,'</td>',
+              '<td class="">',data.get("tags")[0]?data.get("tags")[0].txt:"",'</td>',
               '<td class="">',data.get("limit"),'</td>',
               '<td class="">',data.get("joinnum"),'</td>',
               '<td>',misc.formatDateTime(new Date(data.updatedAt),userObj.format2),'</td>',
