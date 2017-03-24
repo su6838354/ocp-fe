@@ -12,14 +12,17 @@ p.initVar = function(){
 };
 
 p.loadAdmins=function(cb){
-    misc.func.admin.get_admins({
+    var param={
         "isDelete":"0",
         "isShow":"1",
         "limit":1000,
         "page_index":1,
-        "type":'group',
-        'group_type':1
-    },function(res){
+        "type":'group'
+    };
+    if(userObj.currentUser.group_type==1){
+        param['group_type']=1
+    }
+    misc.func.admin.get_admins(param,function(res){
         if(res.code=="0"){
             admins=res.data;
             admins=misc.objAZSortFun(admins,'name');
@@ -68,10 +71,10 @@ p.renderData=function(){
     }
 
     if(userObj.currentUser.get('userRole')=='SuperAdmin'){
-        // $('input,select,textarea').removeAttr('disabled')
-        $('.name').removeAttr('disabled');
-        $('select').removeAttr('disabled');
-        $('.type').attr('disabled','disabled');
+        $('input,select,textarea').removeAttr('disabled')
+        // $('.name').removeAttr('disabled');
+        // $('select').removeAttr('disabled');
+        // $('.type').attr('disabled','disabled');
     }
     if(userObj.currentUser.group_type==1){
         $('.type').attr('disabled','disabled');
