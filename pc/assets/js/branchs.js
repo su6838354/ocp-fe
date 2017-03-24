@@ -48,7 +48,8 @@ p.loadDatas = function(){
         "isDelete":"0",
         "isShow":"-1",
         "limit":p.size,
-        "page_index":p.page
+        "page_index":p.page,
+        "parentId": userObj.currentUser.pid
     };
     if(searchWord){
         param[searchType]=searchWord;
@@ -84,7 +85,7 @@ function htmlRow(data){
         return data[p];
     };
     var del = '<a class="del_act" style="margin-left:10px;" href="javascript:;">删除</a>';
-    var s = data.get("isShow") == "0" ? '<div class="outter-block outter-border"><div class="circle-block boxshowdow"><div></div>':'<div class="outter-block colorGreen"><div class="circle-block boxshowdow pull-right"></div></div>';
+    var s = data.get("isShow") == "0" ? '<div class="outter-block outter-border"><div class="circle-block boxshowdow"></div></div>':'<div class="outter-block colorGreen"><div class="circle-block boxshowdow pull-right"></div></div>';
     return ['<tr data-pid="',data.get("pid"),'" data-name="',data.get("name"),'">',
               '<td>',s,del,'</td>',
               '<td onclick="alert(',data.get("pwd"),')" class="" style="color:red;cursor:pointer;max-width: 60px;">',data.get("username"),'</td>',
@@ -100,9 +101,10 @@ function htmlRow(data){
             '</tr>'].join('');
 }
 function operateEvent(){
-     $('#datatable a.del_act').off().on('click', function (e) {
+
+    $('#datatable a.del_act').off().on('click', function (e) {
         e.preventDefault();
-        if(confirm('不可撤销，确认删除该单位/居委？')){
+        if(confirm('不可撤销，确认删除该单位？')){
             var $this = $(this);
             var curTR=$(this).closest('tr'),
                 pid=curTR.attr('data-pid');
@@ -118,12 +120,12 @@ function operateEvent(){
               "pid": pid
             },function(res){
                 if(res.code){
-                    alert('当前单位/居委不存在！')
+                    alert('当前单位不存在！')
                 }else{
                     curTR.fadeOut('fast', function() {});
                 }
             },function(err){
-                alert('当前单位/居委不存在！')
+                alert('当前单位不存在！')
             });
         }
     });
@@ -151,7 +153,7 @@ function operateEvent(){
           "pid": pid
         },function(res){
             if(res.code){
-                alert('居委不存在！')
+                alert('当前单位不存在！')
             }else if(res.data){
                 var param=res.data;
                 param["isShow"]=(param["isShow"]=="1")?"0":"1";
@@ -168,7 +170,7 @@ function operateEvent(){
                 });
             }
         },function(err){
-            alert('当前单位/居委不存在！')
+            alert('当前单位不存在！')
         });
     });
     $('#datatable .j_view').off().on('click', function (e) {
@@ -208,7 +210,8 @@ function createLateEvent(){
         var params2=$.extend(params1, params);
         params2['pwd']=params1.password;
         params2['group_type']=parseInt($('.group_type').val());
-        params2['parentId']="";
+        params2['parentId']=userObj.currentUser.pid;
+
         if($this.hasClass(misc.vars.disable)){
             return false;
         }
@@ -252,8 +255,8 @@ function createRow() {
     tempTRTDs.eq(0).html('<a class="add" href="">添加</a> <a class="cancel" href="">取消</a>');
     tempTRTDs.eq(1).html('<input class="username" type="text" style="width: 70px !important;background: #ffffff;" value="">');
     tempTRTDs.eq(2).html('<input class="name" type="text" style="width: 70px !important;background: #ffffff;" value="">');
-    tempTRTDs.eq(3).html('<select class="type" style="width:90px;"><option value="group">单位</option><option value="location">居委</option></select>');
-    tempTRTDs.eq(4).html('<select class="group_type" style="width:90px;"><option value="0">其他</option><option value="1">乡镇</option></select>');
+    tempTRTDs.eq(3).html('<select class="type" style="width:90px;"><option value="group">单位</option></select>');
+    tempTRTDs.eq(4).html('<select class="group_type" style="width:90px;"><option value="2">村庄</option></select>');
     tempTRTDs.eq(5).html('<input class="address" type="text" style="width: 70px !important;background: #ffffff;" value="">');
     tempTRTDs.eq(6).html('<input class="person" type="text" style="width: 70px !important;background: #ffffff;" value="">');
     tempTRTDs.eq(7).html('<input class="mobile" type="text" style="width: 70px !important;background: #ffffff;" value="">');

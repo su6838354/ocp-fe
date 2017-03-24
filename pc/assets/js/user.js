@@ -20,6 +20,7 @@ p.loadAdmins=function(cb){
     },function(res){
         if(res.code=="0"){
             admins=res.data;
+            admins=misc.objAZSortFun(admins,'name');
             var l=admins.length;
             if(l>0){
                 for (var i=0;i<l;i++) {
@@ -29,7 +30,10 @@ p.loadAdmins=function(cb){
                   };
                   var s=['<option value="',admin.get("pid"),'">',admin.get('name'),'</option>'].join('');
                   if(admin.get('type')=='group'){
-                      $group.append(s);
+
+                      if(userObj.currentUser.userRole=='SuperAdmin'||admin.pid==userObj.currentUser.pid||admin.parentId==userObj.currentUser.pid){
+                          $group.append(s);
+                      }
                   }
                   else if(admin.get('type')=='location'){
                       $location.append(s);

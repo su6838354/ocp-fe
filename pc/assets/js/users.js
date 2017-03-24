@@ -50,7 +50,7 @@ p.loadDatas = function(){
         "username": "",
         "group__name":"",
         "location__name":"",
-        "order_by": "createdAt"
+        "order_by": "-createdAt"
         // "order_by": "-flagNumber"
     };
     param[searchType]=searchWord.toLowerCase();
@@ -90,9 +90,10 @@ function htmlRow(data){
     var cki = data.get("checkin"),
     cki=eval(cki),
     cki_str = cki&&cki.length>1?[cki[1],"-",cki[2],"-",cki[3]," ",cki[4]].join(""):"未报到";
-    var s = data.get("isShow") == "0" ? '<div class="outter-block outter-border"><div class="circle-block boxshowdow"><div></div>':'<div class="outter-block colorGreen"><div class="circle-block boxshowdow pull-right"><div></div>';
+    var s = data.get("isShow") == "0" ? '<div class="outter-block outter-border"><div class="circle-block boxshowdow"></div></div>':'<div class="outter-block colorGreen"><div class="circle-block boxshowdow pull-right"></div></div>';
+    var del = '<a class="del_act" style="margin-left:10px;" href="javascript:;">删除</a>';
     return ['<tr data-pid="',data.get("pid"),'">',
-              '<td>',s,'</td>',
+              '<td>',s,del,'</td>',
               '<td>',data.get("flagNumber"),'</td>',
               '<td class="j_starmark">',data.get("username"),'</td>',
               '<td class="j_view" style="color:#4b8df8;cursor:pointer;max-width: 60px;">',data.get("realname"),'</td>',
@@ -109,6 +110,34 @@ function htmlRow(data){
             '</tr>'].join('');
 }
 function operateEvent(){
+    $('#datatable a.del_act').off().on('click', function (e) {
+        e.preventDefault();
+        if(confirm('不可撤销，确认删除该用户？')){
+            var $this = $(this);
+            var curTR=$(this).closest('tr'),
+                pid=curTR.attr('data-pid');
+            if(!pid){
+              return false;
+            }
+            if($this.hasClass(misc.vars.disable)){
+                return false;
+            }
+            $this.addClass(misc.vars.disable);
+
+            misc.func.user.delete_user({
+              "pid": pid
+            },function(res){
+              debugger
+                if(res.code){
+                    alert('当前用户不存在！')
+                }else{
+                    curTR.fadeOut('fast', function() {});
+                }
+            },function(err){
+                alert('当前用户不存在！')
+            });
+        }
+    });
     $('#datatable div.circle-block').off().on('click', function (e) {
         e.preventDefault();
         var $this = $(this);

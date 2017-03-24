@@ -28,6 +28,7 @@ body{
   margin-left: 20px;
 }
 .outter-block{
+  float: left;
   border-radius: 11px !important;
   width: 36px;
   height: 20px;

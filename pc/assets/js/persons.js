@@ -24,10 +24,10 @@ p.init = function(){
     if(userObj.currentUser.get("userRole")=="Admins"){
         if(p.admin.get("type")=="location"){
             op_str='<option value="group__name">单位</option>';
-        }else{
+        }else if(p.admin.group_type<2){
+            $('#j_create_new').removeClass('hide');
             op_str='<option value="location__name">居委</option>';
         }
-        $('#j_create_new').removeClass('hide');
     }else{
         op_str+='<option value="group__name">单位</option>';
         op_str+='<option value="location__name">居委</option>';
@@ -37,12 +37,13 @@ p.init = function(){
     p.loadAdmins();
 };
 p.loadAdmins=function(){
-    misc.func.admin.get_admins({
+    var param={
         "isDelete":"0",
         "isShow":"1",
         "limit":1000,
         "page_index":1
-    },function(res){
+    };
+    misc.func.admin.get_admins(param,function(res){
         if(res.code=="0"){
             admins=res.data;
             admins=misc.objAZSortFun(admins,'name');
@@ -55,7 +56,9 @@ p.loadAdmins=function(){
                   };
                   var s=['<option value="',admin.get("pid"),'">',admin.get('name'),'</option>'].join('');
                   if(admin.get('type')=='group'){
-                      p.groupArr.push(s);
+                      if(userObj.currentUser.userRole=='SuperAdmin'||admin.pid==userObj.currentUser.pid||admin.parentId==userObj.currentUser.pid){
+                          p.groupArr.push(s);
+                      }
                   }
                   else if(admin.get('type')=='location'){
                       p.locationArr.push(s);
@@ -132,7 +135,7 @@ p.loadUsersByAdminID=function(){
     var searchType = $('.search-type').val(),
         searchWord = $.trim($('#search-word').val());
     var param={
-        "isShow": "1",
+        "isShow": "-1",
         "limit": p['size'],
         "page_index": p['page'],
         "group": "",
@@ -152,6 +155,12 @@ p.loadUsersByAdminID=function(){
     if(p.checkin===true||p.checkin===false){
         param["checkin"]=p.checkin;
     }
+    if(userObj.currentUser.group_type==1){
+        param["group_type"]="all"
+    }else if(userObj.currentUser.group_type==2){
+        param["group_type"]="admin"
+    }
+    
     param[searchType]=searchWord.toLowerCase();
     misc.func.user.get_users(param,function(res){
       if(res.code=="0"&&res.data){
@@ -187,9 +196,10 @@ function htmlRow(data){
     var cki = data.get("checkin"),
     cki=eval(cki),
     cki_str = cki&&cki.length>1?[cki[1],"-",cki[2],"-",cki[3]," ",cki[4]].join(""):"未报到";
-    var s = data.get("isShow") == "0" ? '<div class="outter-block outter-border"><div class="circle-block boxshowdow"><div></div>':'<div class="outter-block colorGreen"><div class="circle-block boxshowdow pull-right"><div></div>';
+    var s = data.get("isShow") == "0" ? '<div class="outter-block outter-border"><div class="circle-block boxshowdow"></div></div>':'<div class="outter-block colorGreen"><div class="circle-block boxshowdow pull-right"></div></div>';
+    var del = '<a class="del_act" style="margin-left:10px;" href="javascript:;">删除</a>';
     return ['<tr data-pid="',data.get("pid"),'">',
-              '<td>',s,'</td>',
+              '<td>',s,del,'</td>',
               '<td>',data.get("flagNumber"),'</td>',
               '<td class="j_starmark">',data.get("username"),'</td>',
               '<td class="j_view" style="color:#4b8df8;cursor:pointer;max-width: 60px;">',data.get("realname"),'</td>',
@@ -207,6 +217,35 @@ function htmlRow(data){
             '</tr>'].join('');
 }
 function operateEvent(){
+
+    $('#datatable a.del_act').off().on('click', function (e) {
+        e.preventDefault();
+        if(confirm('不可撤销，确认删除该用户？')){
+            var $this = $(this);
+            var curTR=$(this).closest('tr'),
+                pid=curTR.attr('data-pid');
+            if(!pid){
+              return false;
+            }
+            if($this.hasClass(misc.vars.disable)){
+                return false;
+            }
+            $this.addClass(misc.vars.disable);
+
+            misc.func.user.delete_user({
+              "pid": pid
+            },function(res){
+              debugger
+                if(res.code){
+                    alert('当前用户不存在！')
+                }else{
+                    curTR.fadeOut('fast', function() {});
+                }
+            },function(err){
+                alert('当前用户不存在！')
+            });
+        }
+    });
     $('#datatable .j_view').off().on('click', function (e) {
         e.preventDefault();
         window.open('user.html?id='+$(this).parent().attr('data-pid')+'#user');

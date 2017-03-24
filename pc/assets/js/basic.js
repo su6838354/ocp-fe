@@ -517,9 +517,10 @@ misc.vars={
 	checked:'checked',
 	selected:'selected',
 	disable:'disable',
+	enviroment: location.host=="card.weichongmin.com"?"prop":"dev"
 };
 misc.api={
-	host:'http://139.196.243.147:3390/',
+	host: misc.vars.enviroment=="prop"?'http://139.196.243.147:3390/':'http://0.0.0.0:3390/',
 	app1:'app1/',
 	_user:{},
 	user:{},
@@ -530,12 +531,14 @@ misc.api.base=[misc.api.host,misc.api.app1].join(misc.vars.empty);
 misc.api._user.login=misc.api.base+'login';
 misc.api.user.create_user_admin=misc.api.base+'create_user_admin';
 misc.api.user.update_user=misc.api.base+'update_user';
+misc.api.user.delete_user=misc.api.base+'delete_user';
 misc.api.user.get_user=misc.api.base+'get_user';
 misc.api.user.get_users=misc.api.base+'get_users';
 misc.api.user.get_user_checkin=misc.api.base+'get_user_checkin';
 misc.api.admin.update_admin=misc.api.base+'update_admin';
 misc.api.admin.get_admin=misc.api.base+'get_admin';
 misc.api.admin.get_admins=misc.api.base+'get_admins';
+misc.api.admin.delete_admin=misc.api.base+'delete_admin';
 misc.api.activity.get_activity=misc.api.base+'get_activity';
 misc.api.activity.get_activities=misc.api.base+'get_activities';
 misc.api.activity.get_act_registration=misc.api.base+'get_act_registration';
@@ -573,6 +576,13 @@ misc.func.user.create_user_admin=function(param,succ_cb,fail_cb){
         fail_cb && fail_cb(err);
     });
 };
+misc.func.user.delete_user=function(param,succ_cb,fail_cb){
+	misc.ajax.cdPost(misc.api.user.delete_user, JSON.stringify(param), function(res){
+        succ_cb && succ_cb(res);
+    }, function(err){
+        fail_cb && fail_cb(err);
+    });
+};
 misc.func.user.update_user=function(param,succ_cb,fail_cb){
 	misc.ajax.cdPost(misc.api.user.update_user, JSON.stringify(param), function(res){
         succ_cb && succ_cb(res);
@@ -596,6 +606,13 @@ misc.func.user.get_users=function(param,succ_cb,fail_cb){
 };
 misc.func.user.get_user_checkin=function(param,succ_cb,fail_cb){
 	misc.ajax.cdPost(misc.api.user.get_user_checkin, JSON.stringify(param), function(res){
+        succ_cb && succ_cb(res);
+    }, function(err){
+        fail_cb && fail_cb(err);
+    });
+};
+misc.func.admin.delete_admin=function(param,succ_cb,fail_cb){
+	misc.ajax.cdPost(misc.api.admin.delete_admin, JSON.stringify(param), function(res){
         succ_cb && succ_cb(res);
     }, function(err){
         fail_cb && fail_cb(err);
@@ -920,6 +937,7 @@ userObj.initSideBarMenu = function(hash,path){
 	    '</a>',
 	    '<ul class="sub-menu">',
 	        '<li class="',(path.indexOf("admin")>0 ? "active":""),'"><a href="admin.html#user">查看账号信息</a></li>',
+	        userObj.currentUser.type=='group'&&userObj.currentUser.group_type==1?['<li class="',(path.indexOf("branch")>0? "active":""),'"><a href="branches.html#user">所属单位列表</a></li>'].join(''):'',
 	        '<li class="',(path.indexOf("person")>0 ? "active":""),'"><a href="persons.html#user">所属人员列表</a></li>',
 	        '<li class="',(path.indexOf("activit")>0 ? "active":""),'"><a href="activities.html#user">活动数据列表</a></li>',
 	        '<li class="',(path.indexOf("statistic")>0 ? "active":""),'"><a href="statisticlist.html#user">活动统计列表</a></li>',
@@ -938,6 +956,9 @@ userObj.initData = function(){
 	
 	if(userRole=='Admins'){
 		$('.j_SuperAdmin_see').remove();
+		if(userObj.currentUser.group_type==1){
+			$('.j_group_type1').removeClass('hide');
+		}
 	}
 	else{
 		$('.j_SuperAdmin_see').removeClass('hide');
