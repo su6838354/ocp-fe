@@ -82,7 +82,10 @@ p.loadDatas = function(){
             if(p.group){
                 $group.val(p.group.pid);
             }
-
+            if(userObj.currentUser.group_type==2){
+              $('input,select,textarea').attr('disabled', 'disabled');
+                $('.j_btn_modify').parent().remove();
+            }
             // if(userObj.currentUser.get('userRole')!=='SuperAdmin'){
             //   $('input,select,textarea').attr('disabled', 'disabled');
 
