@@ -135,8 +135,8 @@ p.initEvent = function(){
     param["person"]=$.trim($('.person').val());
     
     if(userObj.currentUser.get('userRole')=='SuperAdmin'||(userObj.currentUser.type=='group'&&userObj.currentUser.group_type==1)){
-        // param["username"]=$.trim($('.username').val());
-        // param["type"]=$.trim($('.type').val());
+        param["username"]=$.trim($('.username').val());
+        param["type"]=$.trim($('.type').val());
         param["name"]=$.trim($('.name').val());
     }
     param["createdAt"]=param["createdAt"];
