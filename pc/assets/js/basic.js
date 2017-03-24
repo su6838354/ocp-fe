@@ -517,7 +517,7 @@ misc.vars={
 	checked:'checked',
 	selected:'selected',
 	disable:'disable',
-	enviroment: location.host=="card.weichongmin.com"?"prop":"dev"
+	enviroment: location.host=="card.weichongming.com"?"prop":"dev"
 };
 misc.api={
 	host: misc.vars.enviroment=="prop"?'http://139.196.243.147:3390/':'http://0.0.0.0:3390/',
