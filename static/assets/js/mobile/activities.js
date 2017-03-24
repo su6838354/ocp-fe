@@ -33,7 +33,11 @@ p.initEvent = function(){
 	$j_activities_box.delegate('li', 'click', function(e) {
 		e.preventDefault();
 		e.stopPropagation();
-		location.href='../activity/?id='+$(this).attr('data-id');
+		var id=$(this).attr('data-id');
+		if(!id){
+			id=$(this).parents('li').attr('data-id')
+		}
+		location.href='../activity/?id='+id;
 	});
 	$j_create_btn.on('click', function(e) {
 		e.preventDefault();
