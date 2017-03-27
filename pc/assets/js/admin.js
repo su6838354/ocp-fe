@@ -71,13 +71,14 @@ p.renderData=function(){
     }
 
     if(userObj.currentUser.get('userRole')=='SuperAdmin'){
-        $('input,select,textarea').removeAttr('disabled')
-        // $('.name').removeAttr('disabled');
+        // $('input,select,textarea').removeAttr('disabled')
+        $('.name').removeAttr('disabled');
         // $('select').removeAttr('disabled');
         // $('.type').attr('disabled','disabled');
     }
     if(userObj.currentUser.group_type==1){
         $('.type').attr('disabled','disabled');
+        $('.name').removeAttr('disabled');
     }
     if(obj.get('type')=="group"){
     // if(userObj.currentUser.type=='group'&&userObj.currentUser.group_type==1){
