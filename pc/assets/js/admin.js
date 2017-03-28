@@ -34,8 +34,10 @@ p.loadAdmins=function(cb){
                     admin.get=function(p){
                         return admin[p];
                     };
-                    var s=['<option value="',admin.get("pid"),'">',admin.get('name'),'</option>'].join('');
-                    arr.push(s)
+                    if(admin.group_type==1){
+                        var s=['<option value="',admin.get("pid"),'">',admin.get('name'),'</option>'].join('');
+                        arr.push(s)
+                    }
                 }
                 $('.j_parent').append(arr.join(''))
                 cb && cb();
@@ -73,6 +75,8 @@ p.renderData=function(){
     if(userObj.currentUser.get('userRole')=='SuperAdmin'){
         // $('input,select,textarea').removeAttr('disabled')
         $('.name').removeAttr('disabled');
+        $('.j_parent').removeAttr('disabled');
+        $('.group_type').removeAttr('disabled');
         // $('select').removeAttr('disabled');
         // $('.type').attr('disabled','disabled');
     }
@@ -83,12 +87,15 @@ p.renderData=function(){
     if(obj.get('type')=="group"){
     // if(userObj.currentUser.type=='group'&&userObj.currentUser.group_type==1){
         $('.group-type-li').removeClass('hide')
-        $('.parent-li').removeClass('hide')
+        // $('.parent-li').removeClass('hide')
         $('.j_parent').val(obj.get('parentId'))
     }
     if(obj.group_type==1){
         $('.parent-li').addClass('hide')
         $('.j_parent').val('')
+    }
+    else if(obj.group_type==2){
+        $('.parent-li').removeClass('hide')
     }
 };
 p.loadDatas = function(){
