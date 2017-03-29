@@ -87,7 +87,7 @@ function htmlRow(data){
     var s = data.get("isShow") == "0" ? '<div class="outter-block outter-border"><div class="circle-block boxshowdow"><div></div>':'<div class="outter-block colorGreen"><div class="circle-block boxshowdow pull-right"></div></div>';
     return ['<tr data-pid="',data.get("pid"),'" data-name="',data.get("name"),'">',
               '<td>',s,del,'</td>',
-              '<td onclick="alert(',data.get("pwd"),')" class="" style="color:red;cursor:pointer;max-width: 60px;">',data.get("username"),'</td>',
+              '<td onclick="alert(',data.get("pwd"),')" class="" style="color:red;cursor:pointer;max-width: 120px;">',data.get("username"),'</td>',
               '<td class="j_view" style="color:#4b8df8;cursor:pointer;">',data.get("name"),'</td>',
               '<td>',data.get("type")=="group"?"单位":"居委",'</td>',
               '<td>',p.group_type[data.get("group_type")],'</td>',

@@ -768,6 +768,15 @@ misc.ajax = {
     // })
     
 };
+misc.type={
+    'group':'单位',
+    'location':'居委'
+};
+misc.group_type={
+    '0':'其他',
+    '1':'乡镇',
+    '2':'村庄'
+};
 var IMGEnum = {
 	'jpg':'jpg',
 	'jpeg':'jpeg',

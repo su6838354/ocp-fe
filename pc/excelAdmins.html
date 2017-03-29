@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+	<head>
+  		<meta charset="utf-8" /> 
+		<title></title>
+	</head>
+	<body>
+	<table id="table">
+		<tr>
+			<td>序号</td>
+			<td>上级</td>
+			<td>类型</td>
+			<td>级别</td>
+			<td>名称</td>
+			<td>账号</td>
+			<td>密码</td>
+			<td>联系人</td>
+			<td>手机</td>
+			<td>电话</td>
+			<td>地址</td>
+		</tr>
+	</table>
+	</body>
+  	<script src="assets/js/basic.js?vId=170324v1" type="text/javascript"></script>
+  	<script type="text/javascript">
+  		p={}
+  		~function loadAdmins(cb){
+		    var param={
+		        "isDelete":"0",
+		        "isShow":"1",
+		        "limit":1000,
+		        "page_index":1
+		    };
+		    // param['type']='group'
+		    // param['group_type']=1
+		    misc.func.admin.get_admins(param,function(res){
+		        if(res.code=="0"){
+		            admins=res.data;
+		            admins=misc.objAZSortFun(admins,'name');
+			        parent_admin_enum={}
+			  		parent_admins=admins.filter(function(d){return d.group_type==1})
+			  		parent_admins.map(function(d){
+			  			parent_admin_enum[d.pid]=d.name
+			  		})
+			  		template={
+			  			tr:function(ds){
+			  				return ds.map(function(d,i){
+				  				return [
+				  					'<tr>',
+										'<td>',i+1,'</td>',
+										'<td>',parent_admin_enum[d.parentId]||"无",'</td>',
+										'<td>',misc.type[d.type],'</td>',
+										'<td>',misc.group_type[d.group_type],'</td>',
+										'<td>',d.name,'</td>',
+										'<td>',d.username,'</td>',
+										'<td>',d.pwd,'</td>',
+										'<td>',d.person,'</td>',
+										'<td>',d.mobile,'</td>',
+										'<td>',d.tel,'</td>',
+										'<td>',d.address,'</td>',
+									'</tr>'
+				  				].join('')
+			  				}).join('')
+			  			}
+			  		}
+			  		$('#table').append(template.tr(admins))
+		            
+		        }else{
+		            alert("服务器不给力哦！");
+		        }
+		    },function(err){
+		        alert("服务器不给力哦！");
+		    })
+		}()
+  		// admins=[{"username":"tzb-lhzxljwh","tel":"39360000","name":"绿华镇新绿居委","objectId":"91717f4e143c11e78f3b0016","mobile":"39360000","parentId":"99b8f55c143b11e78f3b0016","pid":"916fe06c143c11e78f3b0016","isShow":"1","person":"郭琳琳","pwd":"177772","createdAt":"2017-03-29T05:00:02Z","address":"绿华镇","updatedAt":"2017-03-29T05:00:02Z","isDelete":0,"type":"group","group_type":2,"flagNumber":""},{"username":"tzb-lhjgsy","tel":"39360000","name":"机关事业团支部","objectId":"82ae6b98143c11e787b10016","mobile":"39360000","parentId":"99b8f55c143b11e78f3b0016","pid":"82ac5aa6143c11e787b10016","isShow":"1","person":"史一帆","pwd":"182313","createdAt":"2017-03-29T04:59:38Z","address":"绿华镇","updatedAt":"2017-03-29T04:59:38Z","isDelete":0,"type":"group","group_type":2,"flagNumber":""},{"username":"tzb-huaxicun","tel":"39360000","name":"华西村团支部","objectId":"7205ae0a143c11e78f6e0016","mobile":"39360000","parentId":"99b8f55c143b11e78f3b0016","pid":"7202ee36143c11e78f6e0016","isShow":"1","person":"陈园亮","pwd":"930730","createdAt":"2017-03-29T04:59:10Z","address":"绿华镇","updatedAt":"2017-03-29T04:59:10Z","isDelete":0,"type":"group","group_type":2,"flagNumber":""},{"username":"tzb-hrc","tel":"39360000","name":"华荣村团支部","objectId":"67041dd4143c11e7815b0016","mobile":"39360000","parentId":"99b8f55c143b11e78f3b0016","pid":"6702909a143c11e7815b0016","isShow":"1","person":"陆佳佳","pwd":"195209","createdAt":"2017-03-29T04:58:51Z","address":"绿华镇","updatedAt":"2017-03-29T04:58:51Z","isDelete":0,"type":"group","group_type":2,"flagNumber":""},{"username":"tzb-huaxingcun","tel":"39360000","name":"华星村团支部","objectId":"5c6baca2143c11e78f6e0016","mobile":"39360000","parentId":"99b8f55c143b11e78f3b0016","pid":"5c69f74a143c11e78f6e0016","isShow":"1","person":"张柳燕","pwd":"464736","createdAt":"2017-03-29T04:58:33Z","address":"绿华镇","updatedAt":"2017-03-29T04:58:33Z","isDelete":0,"type":"group","group_type":2,"flagNumber":""},{"username":"tzb-lyc","tel":"39360000","name":"绿园村团支部","objectId":"4b9f0c48143c11e78f3b0016","mobile":"39360000","parentId":"99b8f55c143b11e78f3b0016","pid":"4b9d720c143c11e78f3b0016","isShow":"1","person":"殷燕","pwd":"718030","createdAt":"2017-03-29T04:58:05Z","address":"绿华镇","updatedAt":"2017-03-29T04:58:05Z","isDelete":0,"type":"group","group_type":2,"flagNumber":""},{"username":"tzb-lgc","tel":"39360000","name":"绿港村团支部","objectId":"42c8f94e143c11e787b10016","mobile":"39360000","parentId":"99b8f55c143b11e78f3b0016","pid":"42c7770e143c11e787b10016","isShow":"1","person":"顾美娥","pwd":"909266","createdAt":"2017-03-29T04:57:50Z","address":"绿华镇","updatedAt":"2017-03-29T04:57:50Z","isDelete":0,"type":"group","group_type":2,"flagNumber":""},{"username":"tzb-lhc","tel":"39360000","name":"绿湖村团支部","objectId":"38dfeb5e143c11e78f3b0016","mobile":"39360000","parentId":"99b8f55c143b11e78f3b0016","pid":"38de0e92143c11e78f3b0016","isShow":"1","person":"顾赛红","pwd":"135661","createdAt":"2017-03-29T04:57:34Z","address":"绿华镇","updatedAt":"2017-03-29T04:57:34Z","isDelete":0,"type":"group","group_type":2,"flagNumber":""},{"username":"tw-lhz","tel":"13761583964","name":"绿华镇团委","objectId":"99bad6ec143b11e78f3b0016","mobile":"13761583964","parentId":"","pid":"99b8f55c143b11e78f3b0016","isShow":"1","person":"汤慧萍","pwd":"110481","createdAt":"2017-03-29T04:53:07Z","address":"绿华镇绿华路518号","updatedAt":"2017-03-29T04:53:14Z","isDelete":0,"type":"group","group_type":1,"flagNumber":""},{"username":"tzb-swjdw","tel":"18018682603","name":"崇明县税务局第五团支部","objectId":"3efa1122142311e78f6e0016","mobile":"18018682603","parentId":"57071ffb1ea493005dc56dc0","pid":"3ef85fda142311e78f6e0016","isShow":"1","person":"陆艳","pwd":"232416","createdAt":"2017-03-29T01:58:47Z","address":"鼓浪屿路1000弄280号","updatedAt":"2017-03-29T01:58:47Z","isDelete":0,"type":"group","group_type":2,"flagNumber":""}]
+       
+  		
+  	</script> 
+</html>

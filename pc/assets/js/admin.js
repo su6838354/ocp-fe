@@ -19,9 +19,9 @@ p.loadAdmins=function(cb){
         "page_index":1,
         "type":'group'
     };
-    if(userObj.currentUser.group_type==1){
-        param['group_type']=1
-    }
+    // if(userObj.currentUser.group_type==1){
+    param['group_type']=1
+    // }
     misc.func.admin.get_admins(param,function(res){
         if(res.code=="0"){
             admins=res.data;
@@ -34,10 +34,8 @@ p.loadAdmins=function(cb){
                     admin.get=function(p){
                         return admin[p];
                     };
-                    if(admin.group_type==1){
-                        var s=['<option value="',admin.get("pid"),'">',admin.get('name'),'</option>'].join('');
-                        arr.push(s)
-                    }
+                    var s=['<option value="',admin.get("pid"),'">',admin.get('name'),'</option>'].join('');
+                    arr.push(s)
                 }
                 $('.j_parent').append(arr.join(''))
                 cb && cb();
