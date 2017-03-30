@@ -58,8 +58,12 @@
 .slideBox .bd li img {
 	/*background: url(../../../assets/images/mobile/default.jpg) center center no-repeat;*/
 	vertical-align: top;
-	width: 100%;
+	width:  90%;
+	margin: 2rem auto;
 	height: auto;
+    border-radius: .8rem;
+    -webkit-border-radius: .8rem;
+    -moz-border-radius: .8rem;
 }
 
 .slideBox .bd li a {
