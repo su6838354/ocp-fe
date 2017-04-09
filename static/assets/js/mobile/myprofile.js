@@ -42,7 +42,27 @@ p.initData = function(){
 				$propertys.eq(7).append(user.userInfo.get('group')?user.userInfo.get('group')['name']||'无':'无');
 				$propertys.eq(8).append(user.userInfo.get('location')?user.userInfo.get('location')['name']||'无':'无');
 				$propertys.eq(9).append(user.userInfo.get('address').replace('上海市崇明县',''));
-				$propertys.eq(10).append(user.userInfo.get('checkin').indexOf("true")>-1?'已报到':'未报到').css('color',user.userInfo.get('checkin')[0]=="true"?'green':'red');
+				// $propertys.eq(10).append(user.userInfo.get('checkin').indexOf("true")>-1?'已报到':'我要报到').css('color',user.userInfo.get('checkin')[0]=="true"?'green':'red');
+				if(user.userInfo.get('checkin').indexOf("true")>-1){
+					$propertys.eq(10)
+						.append('已报到')
+						.css('color','green')
+				}else{
+					var name=user.userInfo.location?user.userInfo.location.name:user.userInfo.group.name;
+					$propertys.eq(10)
+						.append('我要报到')
+						.css('color','red')
+						.on('click', function(e) {
+							e.preventDefault()
+							if(!name) return
+							Dialog.ShowDialog({
+						        title: '',
+						        otherBtns: [],
+						        cancelBtn: '关闭',
+						        content: '<div class="icon qrcodebox" style="background-image:url(../../static/assets/images/mobile/wxqrcode/'+name+'.png)"></div>'
+							});
+						})
+				}
 			}
 		},function(err){
 			loadingHide();

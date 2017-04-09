@@ -11,7 +11,7 @@
 }
 .profile-box .property{
     text-align: left;
-	margin-top: .8rem;
+    padding: .4rem 0;
     color: #444;
     font: 400 .9rem/.9rem "Helvetica Neue",Helvetica,Tahoma,Arial,"Microsoft YaHei",Sans-serif !important;
 }
@@ -45,3 +45,21 @@
 .title{
 	float: left;
 }
+.dialog-temp {
+    margin-left: -8.5rem !important;
+    width: 17rem !important;
+    margin-top: -14.46rem !important;
+    height: 28.92rem !important;
+}
+.icon {
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: block;
+}
+.qrcodebox{
+    width:15rem;
+    height: 24rem;
+}
+
+
