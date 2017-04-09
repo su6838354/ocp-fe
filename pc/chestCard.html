@@ -27,6 +27,7 @@
 			    display: block;
 			}
 			.chestcard-box{
+				margin-bottom: 80px;
 				height: 620px
 			}
 			.chestcard,
@@ -47,9 +48,9 @@
     			left: 50%;
     			margin-left: -91px;
 			}
-			.name{
+			.flagnumber{
 				color: #000000;
-			    /*color: red;*/
+				/*color: red;*/
 			    position: absolute;
 			    top: 466px;
 			    width: 97%;
@@ -57,70 +58,37 @@
 			    font: 400 26px/45px "方正粗宋简体", Helvetica, Tahoma, Arial, Sans-serif !important;
 			    letter-spacing: 1px;
 			}
-			.flagnumber{
+			.name{
 				color: #000000;
-			    /*color: red;*/
+				/*color: red;*/
 			    position: absolute;
-			    top: 514px;
+			    top: 512px;
 			    width: 99%;
+			    left: 7%;
+    			width: 85%;
 			    text-align: center;
-			    font: 400 40px/40px "方正粗宋简体", Helvetica, Tahoma, Arial, Sans-serif !important;
+			    font: 400 40px/46px "方正粗宋简体", Helvetica, Tahoma, Arial, Sans-serif !important;
 			    letter-spacing: 1px;
 			}
 		</style>
 	</head>
 	<body>
 		<div class="chestcard-box">
-			<div class="icon chestcard">
+			<!-- <div class="icon chestcard">
 				<div class="qrcode"></div>
-				<div class="name">16014000</div>
-				<div class="flagnumber">城管执法局</div>
-			</div>
-			<div class="icon chestcard chestcard0"></div>
+				<div class="flagnumber">16014000</div>
+				<div class="name">城管执法局</div>
+			</div> -->
+			<!-- <div class="icon chestcard chestcard0"></div> -->
 		</div>
         <div class="pagenation clearboth j_pagenation"></div>
 	</body>
   	<script src="assets/js/basic.js?vId=170324v1" type="text/javascript"></script>
 	<script src="assets/js/qrcode.min.js?vId=170324v1" type="text/javascript"></script> 
+  	<script src="assets/js/chestCard.js?vId=170324v1" type="text/javascript"></script>
   	<script type="text/javascript">
-  		p={}
-  		p.showMyQRCode = function(index,id){
-			qrcodeEle = document.getElementsByClassName('qrcode')[index];
-		    var qrcode = new QRCode(qrcodeEle, {
-		        width: 173,//设置宽高
-		        height: 173
-		    });
-		 	var url = ['http://card.weichongming.com/mobile/scanqrcode/?id=',id];
-		    qrcode.makeCode(url.join(''));
-		    qrcodeEle.style.visibility = 'visible';
-		}
-		p.showMyQRCode(0,1)
-  		~function loadUsers(cb){
-		    var param={
-				"limit": 2,
-				"page_index": 1,
-				// "order_by": "-createdAt",
-				"order_by": "-flagNumber",
-				"isShow": "1",
-				"political": "单位"
-			}
-			// misc.func.user.get_users(param,function(res){
-		 //        if(res.code=="0"&&res.data){
-		 //        	debugger
-		 //            // p.pagination=res.pagination;
-		 //            // p.maxPage=p.pagination.page_count;
-		 //            // $('#maxCount').text(p.pagination.count);
-		 //            // datas=res.data;
-		 //            // if(datas && datas.length>0){
-		 //            //     cb && cb(datas);
-		 //            // }
-		 //        }
-		 //        else{
-		 //            alert('没有数据哦')
-		 //        }
-		 //    },function(err){
-		 //        alert('没有数据哦')
-		 //    })
-		}()
+  		jQuery(document).ready(function() {
+	        p.init();
+	    });
   	</script> 
 </html>
