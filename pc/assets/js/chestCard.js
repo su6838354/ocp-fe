@@ -6,7 +6,10 @@ p.init=function(){
     p.page=misc.getParam('page');
     p.page=parseInt(p.page)||1;
     p.political=misc.getParam('political')||"单位";
-    p.political=decodeURIComponent(p.political)
+    p.political=decodeURIComponent(p.political);
+    p.id=misc.getParam('id');
+    p.flagNumber=misc.getParam('flagNumber');
+    p.username=misc.getParam('username');
     p.loadUsers();
     template={
     	items:function(ds){
@@ -36,11 +39,19 @@ p.loadUsers=function(){
     var param={
 		"isShow": "1",
 		"limit": p.size,
-		"page_index": p.page,
-		"political": p.political
-		// ,"order_by": "-updatedAt"
-		,"order_by": "-flagNumber"
+		"order_by": "-flagNumber"
+        // "order_by": "-updatedAt"
 	}
+    if(p.id){
+        param["pid"]=p.id
+    }else if(p.flagNumber){
+        param["flagNumber"]=p.flagNumber
+    }else if(p.username){
+        param["username"]=p.username
+    }else{
+        param["page_index"]=p.page
+        param["political"]=p.political
+    }
 	misc.func.user.get_users(param,function(res){
         if(res.code=="0"&&res.data){
             p.pagination=res.pagination;
