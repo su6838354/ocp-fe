@@ -12,6 +12,8 @@ p.initCss = function() {
 	menuHtml('shop1','mee');
 	$out_wrap.css("visibility","visible");
 };
+
+
 p.initData = function(){
 	// loadingHide();
 	userRole = user.currentUser.get('userRole');
@@ -49,19 +51,34 @@ p.initData = function(){
 						.css('color','green')
 				}else{
 					var name=user.userInfo.location?user.userInfo.location.name:user.userInfo.group.name;
-					$propertys.eq(10)
-						.append('我要报到')
-						.css('color','red')
+					var path='../../static/assets/images/mobile/wxqrcode/'
+					
+					var $temp=$('<span style="margin-left:0.5rem">“i公益”</span')
+					$temp
 						.on('click', function(e) {
 							e.preventDefault()
 							if(!name) return
-							Dialog.ShowDialog({
-						        title: '',
-						        otherBtns: [],
-						        cancelBtn: '关闭',
-						        content: '<div class="icon qrcodebox" style="background-image:url(../../static/assets/images/mobile/wxqrcode/'+name+'.png)"></div>'
-							});
+							var img=new Image()
+							img.onload=function(){
+								$('.qrcodebox').empty()
+							}
+							img.onerror=function(){
+								var second=new Image()
+								second.onload=function(){
+									$('.qrcodebox').empty()
+										.css('background-image', 'url('+second.src+')')
+
+								}
+								second.src=path+name+'.jpg'
+							}
+							img.src=path+name+'.png'
+							p.showImage(img.src)
 						})
+						.css('color','green')
+					$propertys.eq(10)
+						.css('color','red')
+						.append('未报到')
+						.append($temp)
 				}
 			}
 		},function(err){
@@ -91,6 +108,14 @@ p.initData = function(){
 		});
 	}
 };
+p.showImage=function(src){
+	Dialog.ShowDialog({
+        title: '',
+        otherBtns: [],
+        cancelBtn: '关闭',
+        content: '<div class="icon qrcodebox" style="background-image:url('+src+')">图片加载中...</div>'
+	});
+}
 p.showMyQRCode = function(){
 	qrcodeEle = document.getElementById("qrcode");
     var qrcode = new QRCode(qrcodeEle, {

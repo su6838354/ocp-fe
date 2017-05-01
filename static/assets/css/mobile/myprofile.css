@@ -13,14 +13,18 @@
     text-align: left;
     padding: .4rem 0;
     color: #444;
-    font: 400 .9rem/.9rem "Helvetica Neue",Helvetica,Tahoma,Arial,"Microsoft YaHei",Sans-serif !important;
+    padding-left: 4.5rem;
+    position: relative;
+    font: 400 .9rem/1.2rem "Helvetica Neue",Helvetica,Tahoma,Arial,"Microsoft YaHei",Sans-serif !important;
 }
 .profile-box .property label{
 	width: 26%;
-    display: inline-block;
+    position: absolute;
+    left: 0;
+    display: block;
     color: #333;
     text-align: right;
-    font: 400 .9rem/.91rem "Helvetica Neue",Helvetica,Tahoma,Arial,"Microsoft YaHei",Sans-serif !important;
+    font: 400 .9rem/1.2rem "Helvetica Neue",Helvetica,Tahoma,Arial,"Microsoft YaHei",Sans-serif !important;
 }
 
 #qrcode{
@@ -60,6 +64,8 @@
 .qrcodebox{
     width:15rem;
     height: 24rem;
+    line-height: 24rem;
+    /*font: 400 .7rem/24rem "Helvetica Neue",Helvetica,Tahoma,Arial,"Microsoft YaHei",Sans-serif !important;*/
 }
 
 

@@ -42,7 +42,8 @@
 				};
 		        if(data == '')
 		            return;
-		        JSONToExcelConvertor(data.data, "Report", data.title);
+		        // JSONToExcelConvertor(data.data, "Report", data.title);
+		        JSONToExcelConvertor(data.data, "统计", data.title);
 		    });
 		});
 
@@ -50,7 +51,7 @@
 		    //先转化json
 		    var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
 		    
-		    var excel = '<table>';    
+		    var excel = '<table  border="1">';    
 		    
 		    //设置表头
 		    var row = "<tr>";
@@ -87,7 +88,8 @@
 			excelFile += "<x:ExcelWorksheets>";
 			excelFile += "<x:ExcelWorksheet>";
 			excelFile += "<x:Name>";
-			excelFile += "{worksheet}";
+			// excelFile += "{worksheet}";
+			excelFile += "表";
 			excelFile += "</x:Name>";
 			excelFile += "<x:WorksheetOptions>";
 			excelFile += "<x:DisplayGridlines/>";
