@@ -53,28 +53,33 @@ p.initData = function(){
 					var name=user.userInfo.location?user.userInfo.location.name:user.userInfo.group.name;
 					var path='../../static/assets/images/mobile/wxqrcode/'
 					
-					var $temp=$('<span style="margin-left:0.5rem">“i公益”</span')
+					var $temp=$('<span class="igongyi">“i公益”</span')
 					$temp
 						.on('click', function(e) {
 							e.preventDefault()
 							if(!name) return
 							var img=new Image()
 							img.onload=function(){
-								$('.qrcodebox').empty()
+								$('.qrcodebox')
+									.html('<img src="',img.src,'">')
 							}
 							img.onerror=function(){
 								var second=new Image()
 								second.onload=function(){
-									$('.qrcodebox').empty()
-										.css('background-image', 'url('+second.src+')')
+									$('.qrcodebox')
+										.html('<img src="'+second.src+'">')
+
+								}
+								second.onerror=function(){
+									$('.qrcodebox')
+										.html('图片加载失败')
 
 								}
 								second.src=path+name+'.jpg'
 							}
 							img.src=path+name+'.png'
-							p.showImage(img.src)
+							p.showImage()
 						})
-						.css('color','green')
 					$propertys.eq(10)
 						.css('color','red')
 						.append('未报到')
