@@ -53,7 +53,7 @@ p.initData = function(){
 					var name=user.userInfo.location?user.userInfo.location.name:user.userInfo.group.name;
 					var path='../../static/assets/images/mobile/wxqrcode/'
 					
-					var $temp=$('<span class="igongyi">“i公益”</span')
+					var $temp=$('<span class="icon igongyi"></span')
 					$temp
 						.on('click', function(e) {
 							e.preventDefault()
