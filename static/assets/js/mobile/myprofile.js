@@ -31,16 +31,16 @@ p.initData = function(){
 				user.userInfo.get=function(p){
 					return user.userInfo[p];
 				};
-				user.userInfo['address']=user.userInfo['address']||"";
-				user.userInfo['job']=user.userInfo['job']||"";
-				user.userInfo['checkin']=user.userInfo['checkin']||[];
-				$propertys.eq(0).append(user.userInfo.get('username'));
-				$propertys.eq(1).append(user.userInfo.get('realname'));
-				$propertys.eq(2).append(user.userInfo.get('sex'));
+				user.userInfo['address']=user.userInfo['address']||"&nbsp;";
+				user.userInfo['job']=user.userInfo['job']||"&nbsp;";
+				user.userInfo['checkin']=user.userInfo['checkin']||"&nbsp;";
+				$propertys.eq(0).append(user.userInfo.get('username')||"&nbsp;");
+				$propertys.eq(1).append(user.userInfo.get('realname')||"&nbsp;");
+				$propertys.eq(2).append(user.userInfo.get('sex')||"&nbsp;");
 				$propertys.eq(3).append(user.userInfo.get('age')+'岁');
 				$propertys.eq(4).append(misc.formatDateTime(new Date(user.userInfo.get('birth')),misc.formatType['1']));
-				$propertys.eq(5).append(user.userInfo.get('arole'));
-				$propertys.eq(6).append(user.userInfo.get('job'));
+				$propertys.eq(5).append(user.userInfo.get('arole')||"&nbsp;");
+				$propertys.eq(6).append(user.userInfo.get('job')||"&nbsp;");
 				$propertys.eq(7).append(user.userInfo.get('group')?user.userInfo.get('group')['name']||'无':'无');
 				$propertys.eq(8).append(user.userInfo.get('location')?user.userInfo.get('location')['name']||'无':'无');
 				$propertys.eq(9).append(user.userInfo.get('address').replace('上海市崇明县',''));
@@ -61,19 +61,17 @@ p.initData = function(){
 							var img=new Image()
 							img.onload=function(){
 								$('.qrcodebox')
-									.html('<img src="',img.src,'">')
+									.html('<img src="'+img.src+'">')
 							}
 							img.onerror=function(){
 								var second=new Image()
 								second.onload=function(){
 									$('.qrcodebox')
 										.html('<img src="'+second.src+'">')
-
 								}
 								second.onerror=function(){
 									$('.qrcodebox')
 										.html('图片加载失败')
-
 								}
 								second.src=path+name+'.jpg'
 							}
