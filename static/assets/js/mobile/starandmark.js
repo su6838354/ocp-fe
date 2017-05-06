@@ -101,7 +101,9 @@ p.getUserInfoById = function(id,callback1,callback2){
 		  		if(lo){
 		  			$('.user-profile').append("居委："+lo.name+'<br/>');
 		  		}
-		  		data.get("checkin")[0]=="true" && callback1 && callback1();
+		  		if(data.get("checkin")){
+		  			data.get("checkin")[0]=="true" && callback1 && callback1();
+		  		}
 		  		callback2 && callback2();
 		  	}
 		}else{
