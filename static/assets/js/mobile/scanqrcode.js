@@ -104,12 +104,22 @@ p.loadActivities=function(){
 				arr.push('</select>');
 				arr.push([
 					'<select class="activitiy-select j_star_select">',
-					'<option value="" selected="selected">请选择评分星级</option>',
-					'<option value="5">5星</option>',
-					'<option value="4">4星</option>',
-					'<option value="3">3星</option>',
-					'<option value="2">2星</option>',
-					'<option value="1">1星</option>',
+					'<option value="" selected="selected">请选择所得评星</option>',
+					'<option value="5">5 星</option>',
+					'<option value="4">4 星</option>',
+					'<option value="3">3 星</option>',
+					'<option value="2">2 星</option>',
+					'<option value="1">1 星</option>',
+					'</select>'
+				].join(''));
+				arr.push([
+					'<select class="activitiy-select j_star_select">',
+					'<option value="" selected="selected">请选择所得积分</option>',
+					'<option value="5">5 分</option>',
+					'<option value="4">4 分</option>',
+					'<option value="3">3 分</option>',
+					'<option value="2">2 分</option>',
+					'<option value="1">1 分</option>',
 					'</select>'
 				].join(''));
 				arr.push('<div class="save-btn j_save">提交</div>');
@@ -122,11 +132,12 @@ p.loadActivities=function(){
 
     });
 };
-p.createActJoinLog = function(value1,value2){
+p.createActJoinLog = function(value1,value2,value3){
 	var activity = activities.filter(function(d){ return d.objectId == value1 })[0];
 	var isInner=false;
 	p.param={
 	  	"star": value2,
+	  	"mark": value3,
 		"admin":activity.admin_id,
 		"activity":activity.objectId,
 		"user":_user.pid,
@@ -165,15 +176,18 @@ p.initEvent = function(){
 		e.stopPropagation();
 		var $selects = $('select.activitiy-select');
 		var v0 = $.trim($selects.eq(0).val()),
-		v1 = $.trim($selects.eq(1).val());
+		v1 = $.trim($selects.eq(1).val()),
+		v2 = $.trim($selects.eq(2).val());
 		if(enable){
 			if(!v0){
 				$selects.eq(0).focus();
 			} else if(!v1){
 				$selects.eq(1).focus();
+			} else if(!v2){
+				$selects.eq(2).focus();
 			} else{
 				enable = false;
-				p.createActJoinLog(v0,parseInt(v1));
+				p.createActJoinLog(v0,parseInt(v1),parseInt(v2));
 			}
 		}
 	});

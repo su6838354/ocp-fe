@@ -250,7 +250,6 @@ p.renderJoinUser=function(datas,act_name){
           return datas[i][p];
         };
         var extra = datas[i].get("extra")||0;
-        debugger
         arrHtml.push([
             '<li>',
               '<div>',i+1,'.</div>',
@@ -259,7 +258,7 @@ p.renderJoinUser=function(datas,act_name){
               '<div style="width:20%;">',datas[i].get("user__location__name")||"暂无",'</div>',
               '<div style="width:10%;">',datas[i].get("isInner")?"是":"否",'</div>',
               '<div style="width:8%;">',datas[i].get("star"),'星</div>',
-              '<div style="width:16%;"><select data-extra=',extra,' style="width:70px" data-id=',datas[i].objectId,'><option value=0>不加分</option><option ',(extra==1?"selected":""),' value=1>1分</option><option ',(extra==2?"selected":""),' value=2>2分</option><option ',(extra==3?"selected":""),' value=3>3分</option></select></div>',
+              '<div style="width:16%;"><select data-extra=',extra,' style="width:70px" data-id=',datas[i].objectId,'><option value=0>不加分</option><option ',(extra==1?"selected":""),' value=1>1分</option><option ',(extra==2?"selected":""),' value=2>2分</option><option ',(extra==3?"selected":""),' value=3>3分</option><option ',(extra==4?"selected":""),' value=4>4分</option><option ',(extra==5?"selected":""),' value=5>5分</option></select></div>',
             '</li>',            
         ].join(''));
       }
