@@ -146,7 +146,6 @@ p.createActJoinLog = function(value1,value2){
 	p.param["isInner"]=isInner;
     var $this=$('.j_save');
 	misc.func.activity.create_act_join_log(p.param,function(res){
-		debugger
 		if(res.code=="0"&&res.data){
 			$this.html('提交成功');
 		}else{
