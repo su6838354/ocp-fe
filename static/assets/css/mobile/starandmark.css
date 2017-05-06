@@ -1,5 +1,5 @@
 .profile-box{
-    width: 86%;
+    width: 16.2rem;
     height: auto;
     padding: 1.3rem 0;
     margin: 1.3rem auto 0;
@@ -10,19 +10,37 @@
 }
 .row{
     height: 3rem;
+    position: relative;
 }
 .row img{
+    position: absolute;
     width: 3rem;
     height: auto;
     float: left;
     margin-left: 2rem;
 }
-.row div{
+.row .div{
+    padding-left: 5rem;
     height: 1.5rem;
     line-height: 1.5rem;
     text-align: center;
     color: #222;
     font-size: 1rem;
+}
+.year-range-box{
+    width: 3.4rem;
+    overflow: hidden;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    display: inline-block;
+}
+.year-range{
+    width: 4.4rem;
+    color: #e03a3c;
+    font-size: 1.3rem;
+    line-height: 1.5rem;
+    border:0;
+    background-color:transparent;
 }
 .star-count-log{
     background: rgba(71, 169, 242, 0.8);
