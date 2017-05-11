@@ -78,8 +78,8 @@ p.loadMyActJoinLog = function(){
 		$out_wrap.css("visibility","visible");
 		if(res.code===0&&res.data){
 			datas=res.data;
-			datas[0].mark=5
-			datas[1].mark=5
+			// datas[0].mark=5
+			// datas[1].mark=5
 			p.renderJoinLog(currentYear)
 		}else{
 			$out_wrap.find('.j_mark_count').html(mark);
@@ -139,6 +139,6 @@ p.getUserInfoById = function(id,callback1,callback2){
 
 		}
 	},function(err){
-
+		debugger
 	}); 
 };

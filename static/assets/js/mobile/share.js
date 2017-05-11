@@ -140,8 +140,8 @@ misc.vars={
 };
 misc.api={
 	host:'http://139.196.243.147:3390/',
-	host: misc.vars.enviroment=="prop"?'http://139.196.243.147:3390/':'http://0.0.0.1:3390/',
-	host: misc.vars.enviroment=="prop"?'http://139.196.243.147:3390/':'http://172.16.9.100:3390/',
+	host: misc.vars.enviroment=="prop"?'http://139.196.243.147:3390/':'http://127.0.0.1:3390/',
+	// host: misc.vars.enviroment=="prop"?'http://139.196.243.147:3390/':'http://172.16.9.100:3390/',
 	app1:'app1/',
 	_user:{},
 	user:{},
