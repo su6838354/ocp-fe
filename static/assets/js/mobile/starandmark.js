@@ -11,14 +11,53 @@ p.init=function() {
 		p.id=misc.getParam('id');
 		p.getUserInfoById(p.id,p.commonCheckLog,p.loadMyActJoinLog);
 	}
+		// loadingHide();
+		// $out_wrap.css("visibility","visible");
 };
 p.initVar=function() {
 	mark=0;
 	$star_count_log=$('.star-count-log');
+	$j_year=$('.j_year')
+	$j_year.change(function() {
+		p.renderJoinLog(parseInt($j_year.val()))
+	});
+	currentYear=parseInt($j_year.val())
+	// currentYear=new Date().getFullYear()
 };
 p.initData = function() {
 	p.showMyCheckLog();
 	p.loadMyActJoinLog();
+};
+p.renderJoinLog=function(year){
+	$('.activity-li').remove()
+	var l=datas.length,act_count=0,extra_total=0;
+	var arr=[];
+	var count=0
+	if(l>0){
+		for (var i = 0; i < l; i++) {
+			var obj = datas[i];
+			obj.get=function(prop){
+				return obj[prop];
+			};
+			if(obj.get('createdAt').indexOf(year)) continue
+			extra_total += obj.get('extra')||0;
+			act_count += obj.get('star')||0;
+			arr.push([
+				'<li class="activity-li">',
+					'<div class="name">',mark+count+1,'. ',obj.get("activity__title"),'</div>',
+					'<div class="marks">',(1+obj.get("extra")),'分</div>',
+					'<div class="stars">',obj.get('star'),'星</div>',
+				'</li>'
+			].join(''))
+			count++
+		}
+		$out_wrap.find('.j_mark_count').html(mark+count+extra_total);
+		$out_wrap.find('.j_star_count').html(act_count);
+		$star_count_log.append(arr.join('')).show();
+	}
+	else{
+		$out_wrap.find('.j_mark_count').html(mark+l);
+	}
 };
 p.loadMyActJoinLog = function(){
 	misc.func.activity.get_act_join_log({
@@ -30,31 +69,35 @@ p.loadMyActJoinLog = function(){
 		$out_wrap.css("visibility","visible");
 		if(res.code===0&&res.data){
 			datas=res.data;
-			var l=datas.length,act_count=0,extra_total=0;
-			var arr=[];
-			if(l>0){
-				for (var i = 0; i < l; i++) {
-					var obj = datas[i];
-					obj.get=function(prop){
-						return obj[prop];
-					};
-					extra_total += obj.get('extra')||0;
-					act_count += obj.get('star')||0;
-					arr.push([
-						'<li>',
-							'<div class="name">',mark+i+1,'. ',obj.get("activity__title"),'</div>',
-							'<div class="marks">',(1+obj.get("extra")),'分</div>',
-							'<div class="stars">',obj.get('star'),'星</div>',
-						'</li>'
-					].join(''))
-				}
-				$out_wrap.find('.j_mark_count').html(mark+l+extra_total);
-				$out_wrap.find('.j_star_count').html(act_count);
-				$star_count_log.append(arr.join('')).show();
-			}
-			else{
-				$out_wrap.find('.j_mark_count').html(mark+l);
-			}
+			p.renderJoinLog(currentYear)
+			// var l=datas.length,act_count=0,extra_total=0;
+			// var arr=[];
+			// var count=0
+			// if(l>0){
+			// 	for (var i = 0; i < l; i++) {
+			// 		var obj = datas[i];
+			// 		obj.get=function(prop){
+			// 			return obj[prop];
+			// 		};
+			// 		if(obj.get('createdAt').indexOf(currentYear)) continue
+			// 		extra_total += obj.get('extra')||0;
+			// 		act_count += obj.get('star')||0;
+			// 		arr.push([
+			// 			'<li>',
+			// 				'<div class="name">',mark+count+1,'. ',obj.get("activity__title"),'</div>',
+			// 				'<div class="marks">',(1+obj.get("extra")),'分</div>',
+			// 				'<div class="stars">',obj.get('star'),'星</div>',
+			// 			'</li>'
+			// 		].join(''))
+			// 		count++
+			// 	}
+			// 	$out_wrap.find('.j_mark_count').html(mark+count+extra_total);
+			// 	$out_wrap.find('.j_star_count').html(act_count);
+			// 	$star_count_log.append(arr.join('')).show();
+			// }
+			// else{
+			// 	$out_wrap.find('.j_mark_count').html(mark+l);
+			// }
 		}else{
 			$out_wrap.find('.j_mark_count').html(mark);
 		}

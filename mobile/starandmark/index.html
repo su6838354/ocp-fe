@@ -12,27 +12,39 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<link rel="stylesheet" href="../../static/assets/css/mobile/common.css?vId=170302v1" />
-		<link rel="stylesheet" href="../../static/assets/css/mobile/starandmark.css?vId=170302v1" />
+		<link rel="stylesheet" href="../../static/assets/css/mobile/starandmark.css?vId=170506v1" />
 	</head>
 	<body>
 		<div class="out-wrap" style="padding-bottom: 1.3rem;">
 			<div class="user-profile" style="width:86%;margin:1rem auto;display: none"></div>
 			<div class="profile-box">
 				<div class="row" style="margin-bottom: 1.3rem;">
+					<img src="../../static/assets/images/mobile/iyear.png" />
+					<div class="div">选择年份</div>
+					<div class="div" style="color: #e03a3c;font-size: 1.3rem;overflow: hidden;">
+						<div class="year-range-box">
+							<select class="year-range j_year">
+								<option value="2017" selected>2017</option>
+								<option value="2016">2016</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="row" style="margin-bottom: 1.3rem;">
 					<img src="../../static/assets/images/mobile/iconfont-pingfen1.png" />
-					<div>我的积分</div>
-					<div class="j_mark_count" style="color: #e03a3c;font-size: 1.3rem;">0</div>
+					<div class="div">我的积分</div>
+					<div class="div j_mark_count" style="color: #e03a3c;font-size: 1.3rem;">0</div>
 				</div>
 				<div class="row">
 					<img src="../../static/assets/images/mobile/iconfont-xingjijiage.png" />
-					<div>我的评星</div>
-					<div class="j_star_count" style="color: #e03a3c;font-size: 1.3rem;">0</div>
+					<div class="div">我的评星</div>
+					<div class="div j_star_count" style="color: #e03a3c;font-size: 1.3rem;">0</div>
 				</div>
 			</div>
 			<ul class="star-count-log j_star_count_log"></ul>
 		</div>
 		<script type="text/javascript" src="../../static/assets/js/mobile/share.js?vId=170302v1" ></script>
-		<script type="text/javascript" src="../../static/assets/js/mobile/starandmark.js?vId=170506v1" ></script>
+		<script type="text/javascript" src="../../static/assets/js/mobile/starandmark.js?vId=170506v2" ></script>
 		<script type="text/javascript">	
 			loading();
 			$(document).ready(function() {
