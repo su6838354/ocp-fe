@@ -546,6 +546,7 @@ misc.api.activity.get_act_registration_count=misc.api.base+'get_act_registration
 misc.api.activity.create_act_registration=misc.api.base+'create_act_registration';
 misc.api.activity.get_act_join_log=misc.api.base+'get_act_join_log';
 misc.api.activity.update_act_join_log_extra=misc.api.base+'update_act_join_log_extra';
+misc.api.activity.update_activity_status=misc.api.base+'update_activity_status';
 misc.api.activity.create_act_join_log=misc.api.base+'create_act_join_log';
 misc.api.activity.create_activity=misc.api.base+'create_activity';
 misc.api.activity.update_activity=misc.api.base+'update_activity';
@@ -725,6 +726,14 @@ misc.func.activity.create_act_registration=function(param,succ_cb,fail_cb){
 };
 misc.func.activity.get_act_join_log=function(param,succ_cb,fail_cb){
     misc.ajax.cdPost(misc.api.activity.get_act_join_log, JSON.stringify(param), function(res){
+        succ_cb && succ_cb(res);
+    }, function(err){
+        fail_cb && fail_cb(err);
+    });
+};
+
+misc.func.activity.update_activity_status=function(param,succ_cb,fail_cb){
+    misc.ajax.cdPost(misc.api.activity.update_activity_status, JSON.stringify(param), function(res){
         succ_cb && succ_cb(res);
     }, function(err){
         fail_cb && fail_cb(err);

@@ -2,6 +2,13 @@ var p = {
     'page':1,
     'size':10
 };
+p.isAdmin_1=userObj.currentUser.userRole==='Admins'&&userObj.currentUser.group_type===1
+p.enum={
+    "all":"全部",
+    "wait":"待审批",
+    "pass":"审批通过",
+    "fail":"审批不通过"
+}
 p.init = function(){
     $j_pagenation=$('.j_pagenation');
     p.page=misc.getParam('page')||1;
@@ -20,7 +27,26 @@ p.initEvent = function(){
       e.preventDefault();
       p.loadDatas();
   });
-  $('body').delegate('select', 'change', function(e) {
+  $('body').delegate('select.do_status', 'change', function(e) {
+      e.stopPropagation();
+      if(p.isAdmin_1){
+          var $this = $(this);
+          var param={
+              "objectId":$this.attr('data-id'),
+              "status":$this.val()
+          };
+          misc.func.activity.update_activity_status(param,function(res){
+            if(res.code=="0"){
+              alert("操作成功");
+            }else{
+              alert("操作失败");
+            }
+          },function(err){
+            alert("操作失败");
+          });
+      }
+  });
+  $('body').delegate('select.jiafen', 'change', function(e) {
       e.stopPropagation();
       var $this = $(this);
       var param={
@@ -55,6 +81,8 @@ p.loadDatas = function(){
         "isShow":"-1",
         "limit":p.size,
         "page_index":p.page
+        ,"group_type":"all", // all  admin
+        "status":"all" // all pass fail wait
     };
     if(userObj.currentUser.get("userRole")=="Admins"){
         param["admin"]=userObj.currentUser.pid;
@@ -92,8 +120,21 @@ function htmlRow(data,idx){
     var join_str = '<a class="join_act" style="margin-left:10px;" href="javascript:;">参加人员</a>';
     var del = '<a class="del_act" style="margin-left:10px;" href="javascript:;">删除</a>';
     var s = data.get("isShow") == "0" ? '<div style="float:left !important;" class="outter-block outter-border"><div class="circle-block boxshowdow"></div></div>':'<div style="float:left !important;" class="outter-block colorGreen"><div class="circle-block boxshowdow pull-right"></div></div>';
+
+    var options=[p.enum[data.get("status")]]
+    if(p.isAdmin_1){
+        var options=[]
+        for(var i in p.enum){
+            if(i!=="all"){
+                options.push(['<option ',(data.get("status")==i?"selected":""),' value="',i,'">',p.enum[i],'</option>'].join(''))  
+            }
+        }
+        options.unshift('<select data-id="',data.objectId,'" ',p.isAdmin_1?"":"disabled",' class="do_status" style="width:100px;">')
+        options.push('</select>')
+    }
     return ['<tr data-name="',data.get("title"),'" data-id="',data.objectId,'">',
               '<td>',s,del,join_str,'</td>',
+              '<td>',options.join(''),'</td>',
               '<td class="" style="color:#4b8df8;cursor:pointer;">',data.get("admin__name"),'</td>',
               '<td class="" style="color:#4b8df8;cursor:pointer;">',data.get("title"),'</td>',
               '<td style="max-width:260px;">',data.get("content"),data.get("content"),data.get("content"),'</td>',
@@ -258,7 +299,7 @@ p.renderJoinUser=function(datas,act_name){
               '<div style="width:20%;">',datas[i].get("user__location__name")||"暂无",'</div>',
               '<div style="width:10%;">',datas[i].get("isInner")?"是":"否",'</div>',
               '<div style="width:8%;">',datas[i].get("star"),'星</div>',
-              '<div style="width:16%;"><select data-extra=',extra,' style="width:70px" data-id=',datas[i].objectId,'><option value=0>不加分</option><option ',(extra==1?"selected":""),' value=1>1分</option><option ',(extra==2?"selected":""),' value=2>2分</option><option ',(extra==3?"selected":""),' value=3>3分</option><option ',(extra==4?"selected":""),' value=4>4分</option><option ',(extra==5?"selected":""),' value=5>5分</option></select></div>',
+              '<div style="width:16%;"><select class="jiafen" data-extra=',extra,' style="width:70px" data-id=',datas[i].objectId,'><option value=0>不加分</option><option ',(extra==1?"selected":""),' value=1>1分</option><option ',(extra==2?"selected":""),' value=2>2分</option><option ',(extra==3?"selected":""),' value=3>3分</option><option ',(extra==4?"selected":""),' value=4>4分</option><option ',(extra==5?"selected":""),' value=5>5分</option></select></div>',
             '</li>',            
         ].join(''));
       }

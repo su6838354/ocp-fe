@@ -9,6 +9,12 @@ p.init = function() {
 	user.checkLogin(p.initData);
 	p.initEvent();
 };
+p.enum={
+    "all":"全部",
+    "wait":"待审批",
+    "pass":"审批通过",
+    "fail":"审批不通过"
+}
 p.initVar = function(){
 	$j_activities_box = $('.j_activities_box');
 	$j_create_btn = $('.j_create_btn');
@@ -130,9 +136,13 @@ p.loadActivities = function(){
 		"isShow":"1",
 	 	"limit":p.size,
 	 	"page_index":p.page+1
+	 	,"status": "pass"
     };
     if(window._filter.id){
     	param["admin"]=window._filter.id;
+	    if(user.currentUser.userRole=='Admins'&&user.currentUser.group_type==2){
+	    	param["status"]="all"
+	    }
     }
 	misc.func.activity.get_activities(param,function(res){
 		loadingHide();
@@ -163,11 +173,12 @@ p.loadActivities = function(){
     });
 };
 p.liHtml = function(obj,number){
+	var str=obj["status"]!="pass"?'「'+p.enum[obj["status"]]+'」':""
 	return [
 		'<li class="thinner-border" data-id="',obj.objectId,'">',
 			'<div class="userarea j_view">',
 			'<div class="userinfo">',
-				'<div class="objname">',(p.page*p.size)+number,'、',obj["title"],'</div>',
+				'<div class="objname">',(p.page*p.size)+number,'、',str,obj["title"],'</div>',
 				'<div class="usersepcial">',obj["content"].replace(/-b/g,' '),'</div>',
 				'<ul class="usertags" style="left: 0.7rem;">',
 					'<li style="margin-right: .25rem;"><img src="../../static/assets/images/mobile/broadcast1.png" class="desc-tag-img" style="width: 1rem;height: auto;top: 0.05rem;"></li>',
