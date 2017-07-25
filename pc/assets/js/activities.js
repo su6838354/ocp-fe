@@ -80,12 +80,12 @@ p.loadDatas = function(){
         "isDelete":"0",
         "isShow":"-1",
         "limit":p.size,
-        "page_index":p.page
-        ,"group_type":"all", // all  admin
+        "page_index":p.page,
         "status":"all" // all pass fail wait
     };
     if(userObj.currentUser.get("userRole")=="Admins"){
         param["admin"]=userObj.currentUser.pid;
+        param["group_type"]="all"
     }
     misc.func.activity.get_activities(param,function(res){
         if(res.code=="0"&&res.data){
