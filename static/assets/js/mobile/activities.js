@@ -142,6 +142,7 @@ p.loadActivities = function(){
     	param["admin"]=window._filter.id;
 	    if(user.currentUser.userRole=='Admins'&&user.currentUser.group_type==2){
 	    	param["status"]="all"
+	    	param["isShow"]="-1"
 	    }
     }
 	misc.func.activity.get_activities(param,function(res){
@@ -173,12 +174,13 @@ p.loadActivities = function(){
     });
 };
 p.liHtml = function(obj,number){
-	var str=obj["status"]!="pass"?'「'+p.enum[obj["status"]]+'」':""
+	var str=obj["status"]!="pass"?'『'+p.enum[obj["status"]]+'』':""
+	var online=obj["isShow"]!="1"?"『未上线』":""
 	return [
 		'<li class="thinner-border" data-id="',obj.objectId,'">',
 			'<div class="userarea j_view">',
 			'<div class="userinfo">',
-				'<div class="objname">',(p.page*p.size)+number,'、',str,obj["title"],'</div>',
+				'<div class="objname">',(p.page*p.size)+number,'、',online,str,obj["title"],'</div>',
 				'<div class="usersepcial">',obj["content"].replace(/-b/g,' '),'</div>',
 				'<ul class="usertags" style="left: 0.7rem;">',
 					'<li style="margin-right: .25rem;"><img src="../../static/assets/images/mobile/broadcast1.png" class="desc-tag-img" style="width: 1rem;height: auto;top: 0.05rem;"></li>',
