@@ -50,14 +50,14 @@ p.initData = function(){
 						.append('已报到')
 						.css('color','green')
 				}else{
-					var name=user.userInfo.location?user.userInfo.location.name:user.userInfo.group.name;
+					var pid=user.userInfo.location?user.userInfo.location.pid:user.userInfo.group.pid;
 					var path='../../static/assets/images/mobile/wxqrcode/'
 					
 					var $temp=$('<span class="icon igongyi"></span')
 					$temp
 						.on('click', function(e) {
 							e.preventDefault()
-							if(!name) return
+							if(!pid) return
 							var img=new Image()
 							img.onload=function(){
 								$('.qrcodebox')
@@ -73,9 +73,9 @@ p.initData = function(){
 									$('.qrcodebox')
 										.html('图片加载失败')
 								}
-								second.src=path+name+'.jpg'
+								second.src=path+pid+'.jpg'
 							}
-							img.src=path+name+'.png'
+							img.src=path+pid+'.png'
 							p.showImage()
 						})
 					$propertys.eq(10)
